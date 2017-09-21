@@ -68,7 +68,7 @@
     SCNHitTestResult *hitResult = [result firstObject];
     if ([hitResult.node.name isEqualToString:@"player"]) {
         PlayerNode *playerNode = (PlayerNode *)hitResult.node;
-        if ([playerNode isPaused]) {
+        if (playerNode.playerPaused) {
             [playerNode play];
         } else {
             [playerNode pause];
@@ -89,6 +89,13 @@
 - (void)session:(ARSession *)session didFailWithError:(NSError *)error {
     if (error) {
         NSLog(@"[%s] Error occured: %@", __FUNCTION__, error.localizedDescription);
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                                 message:error.localizedDescription
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:action];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 

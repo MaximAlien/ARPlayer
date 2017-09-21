@@ -13,7 +13,6 @@
 @interface PlayerNode ()
 
 @property(nonatomic, strong) AVPlayer *player;
-@property (nonatomic) BOOL isPaused;
 
 @end
 
@@ -23,7 +22,7 @@
     self = [super init];
     
     if (self) {
-        self.isPaused = YES;
+        _playerPaused = YES;
         self.name = @"player";
         self.player = [AVPlayer playerWithURL:[NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/609xxkxq1v95fju/609/609_sd_whats_new_in_scenekit.mov"]];
     }
@@ -39,17 +38,13 @@
 }
 
 - (void)pause {
-    self.isPaused = YES;
+    _playerPaused = YES;
     [self.player pause];
 }
 
 - (void)play {
-    self.isPaused = NO;
+    _playerPaused = NO;
     [self.player play];
-}
-
-- (BOOL)isPaused {
-    return _isPaused;
 }
 
 @end

@@ -10,10 +10,10 @@
 
 @interface PlayerNode : SCNNode
 
+@property(nonatomic, readonly) BOOL playerPaused;
+
 - (void)pause;
 
 - (void)play;
-
-- (BOOL)isPaused;
 
 @end
