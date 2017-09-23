@@ -8,6 +8,7 @@
 
 @import SceneKit;
 @import ARKit;
+@import AudioToolbox;
 
 #import "ViewController.h"
 #import "PlayerNode.h"
@@ -73,7 +74,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                                              action:@selector(handleGesture:)];
     longPressGestureRecognizer.delegate = self;
-    longPressGestureRecognizer.minimumPressDuration = 2.0f;
+    longPressGestureRecognizer.minimumPressDuration = 1.0f;
     [self.sceneView addGestureRecognizer:longPressGestureRecognizer];
     
     UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
@@ -92,17 +93,24 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     
     if ([recognizer isKindOfClass:UITapGestureRecognizer.class]) {
         NSArray<SCNHitTestResult *> *result = [self.sceneView hitTest:tapPoint options:nil];
-        
         if (result.count != 0) {
             SCNHitTestResult *hitResult = [result firstObject];
-            if ([hitResult.node.name isEqualToString:@"player"]) {
+            if ([hitResult.node.name isEqualToString:@"player_view_node"]) {
                 PlayerNode *playerNode = (PlayerNode *)hitResult.node;
                 if (playerNode.playerPaused) {
                     [playerNode play];
                 } else {
                     [playerNode pause];
                 }
+            } else if ([hitResult.node.name isEqualToString:@"stop_node"]) {
+                PlayerNode *playerNode = (PlayerNode *)hitResult.node.parentNode;
+                [playerNode stop];
+            } else if ([hitResult.node.name isEqualToString:@"play_node"]) {
+                PlayerNode *playerNode = (PlayerNode *)hitResult.node.parentNode;
+                [playerNode play];
             }
+            
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         }
     } else if (([recognizer isKindOfClass:UILongPressGestureRecognizer.class])) {
         if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -111,23 +119,19 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             
             if (arHitTestResults.count != 0) {
                 ARHitTestResult *hitResult = [arHitTestResults firstObject];
-                NSLog(@"Anchor: %@", hitResult.anchor);
                 
                 PlayerNode *playerNode = [PlayerNode new];
-                // playerNode.geometry = [SCNPlane planeWithWidth:0.4f height:0.3f];
                 playerNode.geometry = [SCNBox boxWithWidth:0.4f
-                                                    height:0.05f
+                                                    height:0.02f
                                                     length:0.25f
                                              chamferRadius:0.0f];
                 playerNode.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic shape:nil];
                 
                 simd_float4 column = hitResult.anchor.transform.columns[3];
-                playerNode.position = SCNVector3Make(column.x, column.y + 0.02f, column.z);
+                playerNode.position = SCNVector3Make(column.x, column.y + 0.01f, column.z);
                 [playerNode play];
                 [self.sceneView.scene.rootNode addChildNode:playerNode];
             }
-        } else if (recognizer.state == UIGestureRecognizerStateEnded) {
-            NSLog(@"Long press Ended");
         }
     } else if ([recognizer isKindOfClass:UIPinchGestureRecognizer.class]) {
         static SCNNode *node;
@@ -144,26 +148,19 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             }
             
             SCNHitTestResult *hitResult = [result firstObject];
-            if ([hitResult.node.name isEqualToString:@"player"]) {
+            if ([hitResult.node.name isEqualToString:@"player_view_node"]) {
                 node = (PlayerNode *)hitResult.node;
             }
         } else if (recognizer.state == UIGestureRecognizerStateChanged) {
-            NSLog(@"UIGestureRecognizerStateChanged {1}");
-            
             if (node) {
-                NSLog(@"UIGestureRecognizerStateChanged {2}");
-                
                 CGFloat pinchScaleX = pinchGestureRecognizer.scale * node.scale.x;
                 CGFloat pinchScaleY = pinchGestureRecognizer.scale * node.scale.y;
                 CGFloat pinchScaleZ = pinchGestureRecognizer.scale * node.scale.z;
                 
                 [node setScale:SCNVector3Make(pinchScaleX, pinchScaleY, pinchScaleZ)];
-            } else {
-                NSLog(@"UIGestureRecognizerStateChanged {3}. NODE IS NIL");
             }
             pinchGestureRecognizer.scale = 1;
         } else if (recognizer.state == UIGestureRecognizerStateEnded) {
-            NSLog(@"Done pinching");
             node = nil;
         }
     } else if ([recognizer isKindOfClass:UIRotationGestureRecognizer.class]) {
@@ -182,32 +179,28 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             }
             
             SCNHitTestResult *hitResult = [result firstObject];
-            if ([hitResult.node.name isEqualToString:@"player"]) {
+            if ([hitResult.node.name isEqualToString:@"player_view_node"]) {
                 node = (PlayerNode *)hitResult.node;
             }
             
             lastRotation = rotationGestureRecognizer.rotation * (- 180 / M_PI);
         } else if (recognizer.state == UIGestureRecognizerStateChanged) {
             float rotation = rotationGestureRecognizer.rotation * (- 180 / M_PI);
-            [node runAction:[SCNAction rotateByX:0 y:rotation - lastRotation z:0 duration:0.0f]];
-            
+            [node runAction:[SCNAction rotateByX:0
+                                               y:rotation - lastRotation
+                                               z:0
+                                        duration:0.0f]];
             lastRotation = rotation;
-            
         }
     }
 }
 
 - (IBAction)hidePlanes:(UISwitch *)sender {
-    if (sender.isOn) {
-        [SettingsManager instance].shouldShowPlanes = YES;
-        
-        for (PlaneRendererNode *plane in [self.planes allValues]) {
+    [SettingsManager instance].shouldShowPlanes = sender.isOn;
+    for (PlaneRendererNode *plane in [self.planes allValues]) {
+        if (sender.isOn) {
             [plane show];
-        }
-    } else {
-        [SettingsManager instance].shouldShowPlanes = NO;
-        
-        for (PlaneRendererNode *plane in [self.planes allValues]) {
+        } else {
             [plane hide];
         }
     }
