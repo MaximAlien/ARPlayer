@@ -11,10 +11,13 @@
 
 #import "ViewController.h"
 #import "PlayerNode.h"
+#import "PlaneRendererNode.h"
+#import "SettingsManager.h"
 
-@interface ViewController () <ARSCNViewDelegate>
+@interface ViewController () <ARSCNViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) IBOutlet ARSCNView *sceneView;
+@property (nonatomic, strong) NSMutableDictionary *planes;
 
 @end
 
@@ -23,17 +26,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [SettingsManager instance].shouldShowPlanes = YES;
+    self.planes = [NSMutableDictionary new];
+    
     self.sceneView.delegate = self;
     self.sceneView.showsStatistics = YES;
     
     SCNScene *scene = [SCNScene scene];
     self.sceneView.scene = scene;
-    
-    matrix_float4x4 translation = matrix_identity_float4x4;
-    translation.columns[3].z = -2;
-    
-    ARAnchor *anchor = [[ARAnchor alloc] initWithTransform:translation];
-    [self.sceneView.session addAnchor:anchor];
     
     [self setupGestureRecognizers];
 }
@@ -42,6 +42,8 @@
     [super viewWillAppear:animated];
     
     ARWorldTrackingConfiguration *configuration = [ARWorldTrackingConfiguration new];
+    configuration.planeDetection = ARPlaneDetectionHorizontal;
+    self.sceneView.automaticallyUpdatesLighting = YES;
     [self.sceneView.session runWithConfiguration:configuration];
 }
 
@@ -51,40 +53,198 @@
     [self.sceneView.session pause];
 }
 
-- (void)setupGestureRecognizers {
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.sceneView addGestureRecognizer:tapGestureRecognizer];
-}
-
-- (void)handleTapFrom:(UITapGestureRecognizer *)recognizer {
-    CGPoint tapPoint = [recognizer locationInView:self.sceneView];
-    NSArray<SCNHitTestResult *> *result = [self.sceneView hitTest:tapPoint options:nil];
-    
-    if (result.count == 0) {
-        return;
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] ||
+        [otherGestureRecognizer isKindOfClass:[UIRotationGestureRecognizer class]]) {
+        return YES;
     }
     
-    SCNHitTestResult *hitResult = [result firstObject];
-    if ([hitResult.node.name isEqualToString:@"player"]) {
-        PlayerNode *playerNode = (PlayerNode *)hitResult.node;
-        if (playerNode.playerPaused) {
-            [playerNode play];
-        } else {
-            [playerNode pause];
+    return NO;
+}
+
+- (void)setupGestureRecognizers {
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                           action:@selector(handleGesture:)];
+    tapGestureRecognizer.delegate = self;
+    tapGestureRecognizer.numberOfTapsRequired = 1;
+    [self.sceneView addGestureRecognizer:tapGestureRecognizer];
+    
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                             action:@selector(handleGesture:)];
+    longPressGestureRecognizer.delegate = self;
+    longPressGestureRecognizer.minimumPressDuration = 2.0f;
+    [self.sceneView addGestureRecognizer:longPressGestureRecognizer];
+    
+    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
+                                                                                                 action:@selector(handleGesture:)];
+    pinchGestureRecognizer.delegate = self;
+    [self.sceneView addGestureRecognizer:pinchGestureRecognizer];
+    
+    UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self
+                                                                                                          action:@selector(handleGesture:)];
+    rotationGestureRecognizer.delegate = self;
+    [self.sceneView addGestureRecognizer:rotationGestureRecognizer];
+}
+
+- (void)handleGesture:(UIGestureRecognizer *)recognizer {
+    CGPoint tapPoint = [recognizer locationInView:self.sceneView];
+    
+    if ([recognizer isKindOfClass:UITapGestureRecognizer.class]) {
+        NSArray<SCNHitTestResult *> *result = [self.sceneView hitTest:tapPoint options:nil];
+        
+        if (result.count != 0) {
+            SCNHitTestResult *hitResult = [result firstObject];
+            if ([hitResult.node.name isEqualToString:@"player"]) {
+                PlayerNode *playerNode = (PlayerNode *)hitResult.node;
+                if (playerNode.playerPaused) {
+                    [playerNode play];
+                } else {
+                    [playerNode pause];
+                }
+            }
+        }
+    } else if (([recognizer isKindOfClass:UILongPressGestureRecognizer.class])) {
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            NSArray<ARHitTestResult *> *arHitTestResults = [self.sceneView hitTest:tapPoint
+                                                                             types:ARHitTestResultTypeExistingPlaneUsingExtent];
+            
+            if (arHitTestResults.count != 0) {
+                ARHitTestResult *hitResult = [arHitTestResults firstObject];
+                NSLog(@"Anchor: %@", hitResult.anchor);
+                
+                PlayerNode *playerNode = [PlayerNode new];
+                // playerNode.geometry = [SCNPlane planeWithWidth:0.4f height:0.3f];
+                playerNode.geometry = [SCNBox boxWithWidth:0.4f
+                                                    height:0.05f
+                                                    length:0.25f
+                                             chamferRadius:0.0f];
+                playerNode.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic shape:nil];
+                
+                simd_float4 column = hitResult.anchor.transform.columns[3];
+                playerNode.position = SCNVector3Make(column.x, column.y + 0.02f, column.z);
+                [playerNode play];
+                [self.sceneView.scene.rootNode addChildNode:playerNode];
+            }
+        } else if (recognizer.state == UIGestureRecognizerStateEnded) {
+            NSLog(@"Long press Ended");
+        }
+    } else if ([recognizer isKindOfClass:UIPinchGestureRecognizer.class]) {
+        static SCNNode *node;
+        UIPinchGestureRecognizer *pinchGestureRecognizer = (UIPinchGestureRecognizer *)recognizer;
+        
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            NSArray<SCNHitTestResult *> *result = [self.sceneView hitTest:tapPoint options:nil];
+            if ([result count] == 0) {
+                tapPoint = [recognizer locationOfTouch:0 inView:_sceneView];
+                result = [self.sceneView hitTest:tapPoint options:nil];
+                if ([result count] == 0) {
+                    return;
+                }
+            }
+            
+            SCNHitTestResult *hitResult = [result firstObject];
+            if ([hitResult.node.name isEqualToString:@"player"]) {
+                node = (PlayerNode *)hitResult.node;
+            }
+        } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+            NSLog(@"UIGestureRecognizerStateChanged {1}");
+            
+            if (node) {
+                NSLog(@"UIGestureRecognizerStateChanged {2}");
+                
+                CGFloat pinchScaleX = pinchGestureRecognizer.scale * node.scale.x;
+                CGFloat pinchScaleY = pinchGestureRecognizer.scale * node.scale.y;
+                CGFloat pinchScaleZ = pinchGestureRecognizer.scale * node.scale.z;
+                
+                [node setScale:SCNVector3Make(pinchScaleX, pinchScaleY, pinchScaleZ)];
+            } else {
+                NSLog(@"UIGestureRecognizerStateChanged {3}. NODE IS NIL");
+            }
+            pinchGestureRecognizer.scale = 1;
+        } else if (recognizer.state == UIGestureRecognizerStateEnded) {
+            NSLog(@"Done pinching");
+            node = nil;
+        }
+    } else if ([recognizer isKindOfClass:UIRotationGestureRecognizer.class]) {
+        static SCNNode *node;
+        UIRotationGestureRecognizer *rotationGestureRecognizer = (UIRotationGestureRecognizer *)recognizer;
+        static CGFloat lastRotation = 0.0f;
+        
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            NSArray<SCNHitTestResult *> *result = [self.sceneView hitTest:tapPoint options:nil];
+            if ([result count] == 0) {
+                tapPoint = [recognizer locationOfTouch:0 inView:_sceneView];
+                result = [self.sceneView hitTest:tapPoint options:nil];
+                if ([result count] == 0) {
+                    return;
+                }
+            }
+            
+            SCNHitTestResult *hitResult = [result firstObject];
+            if ([hitResult.node.name isEqualToString:@"player"]) {
+                node = (PlayerNode *)hitResult.node;
+            }
+            
+            lastRotation = rotationGestureRecognizer.rotation * (- 180 / M_PI);
+        } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+            float rotation = rotationGestureRecognizer.rotation * (- 180 / M_PI);
+            [node runAction:[SCNAction rotateByX:0 y:rotation - lastRotation z:0 duration:0.0f]];
+            
+            lastRotation = rotation;
+            
+        }
+    }
+}
+
+- (IBAction)hidePlanes:(UISwitch *)sender {
+    if (sender.isOn) {
+        [SettingsManager instance].shouldShowPlanes = YES;
+        
+        for (PlaneRendererNode *plane in [self.planes allValues]) {
+            [plane show];
+        }
+    } else {
+        [SettingsManager instance].shouldShowPlanes = NO;
+        
+        for (PlaneRendererNode *plane in [self.planes allValues]) {
+            [plane hide];
         }
     }
 }
 
 #pragma mark - ARSCNViewDelegate
 
-- (SCNNode *)renderer:(id<SCNSceneRenderer>)renderer nodeForAnchor:(ARAnchor *)anchor {
-    PlayerNode *playerNode = [PlayerNode new];
-    playerNode.geometry = [SCNPlane planeWithWidth:1.0f height:1.0f];
-    [playerNode play];
+- (void)renderer:(id <SCNSceneRenderer>)renderer didAddNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
+    if (![anchor isKindOfClass:[ARPlaneAnchor class]]) {
+        return;
+    }
     
-    return playerNode;
+    PlaneRendererNode *plane = [[PlaneRendererNode alloc] initWithAnchor:(ARPlaneAnchor *)anchor
+                                                                 visible:[SettingsManager instance].shouldShowPlanes];
+    plane.name = @"plane_renderer";
+    [self.planes setObject:plane forKey:anchor.identifier];
+    [node addChildNode:plane];
 }
+
+- (void)renderer:(id <SCNSceneRenderer>)renderer willUpdateNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
+    
+}
+
+- (void)renderer:(id <SCNSceneRenderer>)renderer didUpdateNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
+    PlaneRendererNode *plane = [self.planes objectForKey:anchor.identifier];
+    if (plane == nil) {
+        return;
+    }
+    
+    [plane update:(ARPlaneAnchor *)anchor];
+}
+
+- (void)renderer:(id <SCNSceneRenderer>)renderer didRemoveNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
+    [self.planes removeObjectForKey:anchor.identifier];
+}
+
+#pragma mark - ARSessionObserver
 
 - (void)session:(ARSession *)session didFailWithError:(NSError *)error {
     if (error) {
@@ -108,4 +268,3 @@
 }
 
 @end
-

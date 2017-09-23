@@ -20,12 +20,24 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BR4-gB-IwS">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </arscnView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VtS-FG-dky">
+                                <rect key="frame" x="16" y="20" width="49" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="YF7-3W-ETT"/>
+                                    <constraint firstAttribute="height" constant="31" id="mW3-Ca-aIT"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="hidePlanes:" destination="BYZ-38-t0r" eventType="valueChanged" id="52b-aG-4d2"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="BR4-gB-IwS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GjQ-GR-sF8"/>
                             <constraint firstItem="BR4-gB-IwS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="NwE-nR-d7G"/>
+                            <constraint firstItem="VtS-FG-dky" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="YUT-fR-2Nu"/>
                             <constraint firstItem="BR4-gB-IwS" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="krl-43-BMQ"/>
+                            <constraint firstItem="VtS-FG-dky" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ruz-SN-Pdh"/>
                             <constraint firstItem="BR4-gB-IwS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="siz-NL-NOm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

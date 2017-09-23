@@ -33,8 +33,14 @@
 - (void)setGeometry:(SCNGeometry *)geometry {
     [super setGeometry:geometry];
     
-    self.geometry.firstMaterial.diffuse.contents = self.player;
-    self.geometry.firstMaterial.doubleSided = true;
+    self.geometry.firstMaterial.doubleSided = false;
+    
+    SCNMaterial *mainMaterial = [SCNMaterial new];
+    mainMaterial.diffuse.contents = [[UIColor blackColor] colorWithAlphaComponent:1.0f];
+    
+    SCNMaterial *playerMaterial = [SCNMaterial new];
+    playerMaterial.diffuse.contents = self.player;
+    self.geometry.materials = @[mainMaterial, mainMaterial, mainMaterial, mainMaterial, playerMaterial, mainMaterial];
 }
 
 - (void)pause {
