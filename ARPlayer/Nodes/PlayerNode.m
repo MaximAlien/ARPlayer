@@ -44,12 +44,12 @@
     
     [self createPlayNode];
     [self createStopNode];
+    
+    [self createCurrentTimeNode];
+    [self createRemainingTimeNode];
 }
 
 - (void)createPlayNode {
-    SCNMaterial *mainMaterial = [SCNMaterial new];
-    mainMaterial.diffuse.contents = [[UIColor redColor] colorWithAlphaComponent:1.0f];
-    
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointZero];
     [path addLineToPoint:CGPointMake(0.04f, 0.02f)];
@@ -57,7 +57,7 @@
     [path closePath];
     
     SCNShape *trianglePrism = [SCNShape shapeWithPath:path extrusionDepth:0.02f];
-    trianglePrism.firstMaterial.diffuse.contents = [UIColor redColor];
+    trianglePrism.firstMaterial.diffuse.contents = [UIColor blackColor];
     SCNNode *playNode = [SCNNode nodeWithGeometry:trianglePrism];
     playNode.transform = SCNMatrix4MakeRotation(M_PI_2, 1.0f, 0.0f, 0.0f);
     playNode.position = SCNVector3Make(-0.05f, 0.0f, 0.2f);
@@ -67,7 +67,7 @@
 
 - (void)createStopNode {
     SCNMaterial *mainMaterial = [SCNMaterial new];
-    mainMaterial.diffuse.contents = [[UIColor greenColor] colorWithAlphaComponent:1.0f];
+    mainMaterial.diffuse.contents = [UIColor blackColor];
     
     SCNBox *stopNodeGeometry = [SCNBox boxWithWidth:0.04f
                                              height:0.02f
@@ -78,6 +78,14 @@
     stopNode.geometry.firstMaterial = mainMaterial;
     stopNode.name = @"stop_node";
     [self addChildNode:stopNode];
+}
+
+- (void)createCurrentTimeNode {
+
+}
+
+- (void)createRemainingTimeNode {
+
 }
 
 - (void)pause {

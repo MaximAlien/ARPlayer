@@ -8,10 +8,16 @@
 
 @import Foundation;
 
+extern NSString * const kNotificationShowPlanes;
+
 @interface SettingsManager : NSObject
 
 + (instancetype)instance;
 
-@property (nonatomic) BOOL shouldShowPlanes;
+@property (nonatomic) BOOL showPlanes;
+
+@property (nonatomic) BOOL vibrateOnTouch;
+
+@property (nonatomic) BOOL animateOnTouch;
 
 @end

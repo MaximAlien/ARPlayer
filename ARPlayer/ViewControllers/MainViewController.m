@@ -1,33 +1,39 @@
 //
-//  ViewController.m
+//  MainViewController.m
 //  ARPlayer
 //
-//  Created by Maxim Makhun on 9/21/17.
+//  Created by Maxim Makhun on 9/24/17.
 //  Copyright © 2017 Maxim Makhun. All rights reserved.
 //
 
 @import SceneKit;
 @import ARKit;
-@import AudioToolbox;
 
-#import "ViewController.h"
+// View Controllers
+#import "MainViewController.h"
+#import "SettingsViewController.h"
+
+// Nodes
 #import "PlayerNode.h"
 #import "PlaneRendererNode.h"
-#import "SettingsManager.h"
 
-@interface ViewController () <ARSCNViewDelegate, UIGestureRecognizerDelegate>
+// Settings
+#import "SettingsManager.h"
+#import "Utils.h"
+
+@interface MainViewController () <ARSCNViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) IBOutlet ARSCNView *sceneView;
 @property (nonatomic, strong) NSMutableDictionary *planes;
 
 @end
 
-@implementation ViewController
+@implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [SettingsManager instance].shouldShowPlanes = YES;
+    self.view.backgroundColor = [UIColor blackColor];
     self.planes = [NSMutableDictionary new];
     
     self.sceneView.delegate = self;
@@ -37,6 +43,7 @@
     self.sceneView.scene = scene;
     
     [self setupGestureRecognizers];
+    [self subscribeForNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -52,6 +59,24 @@
     [super viewWillDisappear:animated];
     
     [self.sceneView.session pause];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (IBAction)showSettings:(UIButton *)sender {
+    SettingsViewController *settingsViewController = [SettingsViewController new];
+    settingsViewController.popoverPresentationController.sourceView = sender;
+    settingsViewController.popoverPresentationController.sourceRect = CGRectMake(sender.frame.size.width / 2,
+                                                                                 sender.frame.size.height + 5,
+                                                                                 0,
+                                                                                 0);
+    settingsViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width - 100,
+                                                             self.view.frame.size.height - 200);
+    settingsViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    
+    [self presentViewController:settingsViewController animated:YES completion:nil];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
@@ -88,6 +113,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     [self.sceneView addGestureRecognizer:rotationGestureRecognizer];
 }
 
+- (void)subscribeForNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showPlanes:)
+                                                 name:kNotificationShowPlanes
+                                               object:nil];
+}
+
 - (void)handleGesture:(UIGestureRecognizer *)recognizer {
     CGPoint tapPoint = [recognizer locationInView:self.sceneView];
     
@@ -104,13 +136,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
                 }
             } else if ([hitResult.node.name isEqualToString:@"stop_node"]) {
                 PlayerNode *playerNode = (PlayerNode *)hitResult.node.parentNode;
+                [Utils handleTouch:hitResult.node];
                 [playerNode stop];
             } else if ([hitResult.node.name isEqualToString:@"play_node"]) {
                 PlayerNode *playerNode = (PlayerNode *)hitResult.node.parentNode;
+                [Utils handleTouch:hitResult.node];
                 [playerNode play];
             }
-            
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         }
     } else if (([recognizer isKindOfClass:UILongPressGestureRecognizer.class])) {
         if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -195,10 +227,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     }
 }
 
-- (IBAction)hidePlanes:(UISwitch *)sender {
-    [SettingsManager instance].shouldShowPlanes = sender.isOn;
+- (void)showPlanes:(NSNotification *)notification {
     for (PlaneRendererNode *plane in [self.planes allValues]) {
-        if (sender.isOn) {
+        if ([SettingsManager instance].showPlanes) {
             [plane show];
         } else {
             [plane hide];
@@ -214,7 +245,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     }
     
     PlaneRendererNode *plane = [[PlaneRendererNode alloc] initWithAnchor:(ARPlaneAnchor *)anchor
-                                                                 visible:[SettingsManager instance].shouldShowPlanes];
+                                                                 visible:[SettingsManager instance].showPlanes];
     plane.name = @"plane_renderer";
     [self.planes setObject:plane forKey:anchor.identifier];
     [node addChildNode:plane];
