@@ -13,6 +13,8 @@
 @interface PlayerNode ()
 
 @property(nonatomic, strong) AVPlayer *player;
+@property(nonatomic, strong) SCNText *currentTimeGeometry;
+@property(nonatomic, strong) SCNText *remainingTimeGeometry;
 
 @end
 
@@ -25,6 +27,20 @@
         _playerPaused = YES;
         self.name = @"player_view_node";
         self.player = [AVPlayer playerWithURL:[NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/609xxkxq1v95fju/609/609_sd_whats_new_in_scenekit.mov"]];
+        
+        __weak typeof(self) weakSelf = self;
+        [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC)
+                                                  queue:nil
+                                             usingBlock:^(CMTime time) {
+                                                 Float64 seconds = CMTimeGetSeconds(time);
+                                                 NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+                                                 NSDateFormatter *dateFormatter = [NSDateFormatter new];
+                                                 [dateFormatter setDateFormat:(int)(seconds / 3600) > 0 ? @"HH:mm:ss" : @"mm:ss"];
+                                                 [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                                                 
+                                                 NSString *currentTimeString = [dateFormatter stringFromDate:date];
+                                                 weakSelf.currentTimeGeometry.string = currentTimeString;
+                                             }];
     }
     
     return self;
@@ -46,7 +62,6 @@
     [self createStopNode];
     
     [self createCurrentTimeNode];
-    [self createRemainingTimeNode];
 }
 
 - (void)createPlayNode {
@@ -60,7 +75,7 @@
     trianglePrism.firstMaterial.diffuse.contents = [UIColor blackColor];
     SCNNode *playNode = [SCNNode nodeWithGeometry:trianglePrism];
     playNode.transform = SCNMatrix4MakeRotation(M_PI_2, 1.0f, 0.0f, 0.0f);
-    playNode.position = SCNVector3Make(-0.05f, 0.0f, 0.2f);
+    playNode.position = SCNVector3Make(-0.05f, 0.0f, 0.16f);
     playNode.name = @"play_node";
     [self addChildNode:playNode];
 }
@@ -74,18 +89,32 @@
                                              length:0.04f
                                       chamferRadius:0.0f];
     SCNNode *stopNode = [SCNNode nodeWithGeometry:stopNodeGeometry];
-    stopNode.position = SCNVector3Make(0.05f, 0.0f, 0.22f);
+    stopNode.position = SCNVector3Make(0.05f, 0.0f, 0.18f);
     stopNode.geometry.firstMaterial = mainMaterial;
     stopNode.name = @"stop_node";
     [self addChildNode:stopNode];
 }
 
-- (void)createCurrentTimeNode {
-
+- (SCNText *)createTimeGeometryWithFrame:(CGRect)frame {
+    SCNText *timeGeometry = [SCNText textWithString:@"00:00" extrusionDepth:0.02f];
+    timeGeometry.font = [UIFont systemFontOfSize:0.14f];
+    timeGeometry.containerFrame = frame;
+    
+    return timeGeometry;
 }
 
-- (void)createRemainingTimeNode {
+- (void)createCurrentTimeNode {
+    self.currentTimeGeometry = [self createTimeGeometryWithFrame:CGRectMake(-0.2f, -0.25f, 0.6f, 0.25f)];
+    self.currentTimeGeometry.alignmentMode = kCAAlignmentCenter;
+    
+    SCNMaterial *mainMaterial = [SCNMaterial new];
+    mainMaterial.diffuse.contents = [UIColor blackColor];
+    self.currentTimeGeometry.firstMaterial = mainMaterial;
 
+    SCNNode *currentTimeNode = [SCNNode node];
+    currentTimeNode.position = SCNVector3Make(0.0f, 0.0f, -0.2f);
+    [currentTimeNode setGeometry:self.currentTimeGeometry];
+    [self addChildNode:currentTimeNode];
 }
 
 - (void)pause {

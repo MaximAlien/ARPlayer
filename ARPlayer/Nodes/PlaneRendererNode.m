@@ -44,7 +44,7 @@
         }
         
         SCNNode *planeNode = [SCNNode nodeWithGeometry:self.planeGeometry];
-        planeNode.position = SCNVector3Make(0, -planeHeight / 2, 0);
+        planeNode.position = SCNVector3Make(0, -planeHeight, 0);
         planeNode.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeKinematic
                                                        shape:[SCNPhysicsShape shapeWithGeometry:self.planeGeometry options:nil]];
         

@@ -36,12 +36,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.planes = [NSMutableDictionary new];
     
-    self.sceneView.delegate = self;
-    self.sceneView.showsStatistics = YES;
-    
-    SCNScene *scene = [SCNScene scene];
-    self.sceneView.scene = scene;
-    
+    [self setupScene];
     [self setupGestureRecognizers];
     [self subscribeForNotifications];
 }
@@ -63,6 +58,14 @@
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
+}
+
+- (void)setupScene {
+    self.sceneView.delegate = self;
+    self.sceneView.showsStatistics = YES;
+    
+    SCNScene *scene = [SCNScene scene];
+    self.sceneView.scene = scene;
 }
 
 - (IBAction)showSettings:(UIButton *)sender {
