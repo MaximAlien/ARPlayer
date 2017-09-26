@@ -16,7 +16,6 @@
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateOnTouchSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *animateOnTouchSwitch;
 
-
 @end
 
 @implementation SettingsViewController

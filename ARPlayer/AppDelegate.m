@@ -9,15 +9,15 @@
 #import "AppDelegate.h"
 
 // View Controllers
-#import "MainViewController.h"
+#import "PlayerViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    MainViewController *mainViewController = [MainViewController new];
-    self.window.rootViewController = mainViewController;
+    PlayerViewController *playerViewController = [PlayerViewController new];
+    self.window.rootViewController = playerViewController;
     [self.window makeKeyAndVisible];
     
     return YES;

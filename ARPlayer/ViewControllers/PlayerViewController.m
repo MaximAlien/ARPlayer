@@ -1,5 +1,5 @@
 //
-//  MainViewController.m
+//  PlayerViewController.m
 //  ARPlayer
 //
 //  Created by Maxim Makhun on 9/24/17.
@@ -10,7 +10,7 @@
 @import ARKit;
 
 // View Controllers
-#import "MainViewController.h"
+#import "PlayerViewController.h"
 #import "SettingsViewController.h"
 
 // Nodes
@@ -21,20 +21,17 @@
 #import "SettingsManager.h"
 #import "Utils.h"
 
-@interface MainViewController () <ARSCNViewDelegate, UIGestureRecognizerDelegate>
+@interface PlayerViewController () <ARSCNViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) IBOutlet ARSCNView *sceneView;
 @property (nonatomic, strong) NSMutableDictionary *planes;
 
 @end
 
-@implementation MainViewController
+@implementation PlayerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor blackColor];
-    self.planes = [NSMutableDictionary new];
     
     [self setupScene];
     [self setupGestureRecognizers];
@@ -60,36 +57,17 @@
     return YES;
 }
 
+#pragma mark - Setting up methods
+
 - (void)setupScene {
+    self.view.backgroundColor = [UIColor blackColor];
+    self.planes = [NSMutableDictionary new];
+    
     self.sceneView.delegate = self;
     self.sceneView.showsStatistics = YES;
     
     SCNScene *scene = [SCNScene scene];
     self.sceneView.scene = scene;
-}
-
-- (IBAction)showSettings:(UIButton *)sender {
-    SettingsViewController *settingsViewController = [SettingsViewController new];
-    settingsViewController.popoverPresentationController.sourceView = sender;
-    settingsViewController.popoverPresentationController.sourceRect = CGRectMake(sender.frame.size.width / 2,
-                                                                                 sender.frame.size.height + 5,
-                                                                                 0,
-                                                                                 0);
-    settingsViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width - 100,
-                                                             self.view.frame.size.height - 200);
-    settingsViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    
-    [self presentViewController:settingsViewController animated:YES completion:nil];
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
-shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] ||
-        [otherGestureRecognizer isKindOfClass:[UIRotationGestureRecognizer class]]) {
-        return YES;
-    }
-    
-    return NO;
 }
 
 - (void)setupGestureRecognizers {
@@ -123,6 +101,32 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
                                                object:nil];
 }
 
+#pragma mark - Action handlers
+
+- (IBAction)showSettings:(UIButton *)sender {
+    SettingsViewController *settingsViewController = [SettingsViewController new];
+    settingsViewController.popoverPresentationController.sourceView = sender;
+    settingsViewController.popoverPresentationController.sourceRect = CGRectMake(sender.frame.size.width / 2,
+                                                                                 sender.frame.size.height + 5,
+                                                                                 0,
+                                                                                 0);
+    settingsViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width - 100,
+                                                             self.view.frame.size.height - 200);
+    settingsViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    
+    [self presentViewController:settingsViewController animated:YES completion:nil];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]] ||
+        [otherGestureRecognizer isKindOfClass:[UIRotationGestureRecognizer class]]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (void)handleGesture:(UIGestureRecognizer *)recognizer {
     CGPoint tapPoint = [recognizer locationInView:self.sceneView];
     
@@ -144,7 +148,11 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             } else if ([hitResult.node.name isEqualToString:@"play_node"]) {
                 PlayerNode *playerNode = (PlayerNode *)hitResult.node.parentNode;
                 [Utils handleTouch:hitResult.node];
-                [playerNode play];
+                if (playerNode.playerPaused) {
+                    [playerNode play];
+                } else {
+                    [playerNode pause];
+                }
             }
         }
     } else if (([recognizer isKindOfClass:UILongPressGestureRecognizer.class])) {
@@ -242,7 +250,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 #pragma mark - ARSCNViewDelegate
 
-- (void)renderer:(id <SCNSceneRenderer>)renderer didAddNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
+- (void)renderer:(id <SCNSceneRenderer>)renderer
+      didAddNode:(SCNNode *)node
+       forAnchor:(ARAnchor *)anchor {
     if (![anchor isKindOfClass:[ARPlaneAnchor class]]) {
         return;
     }
@@ -254,11 +264,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     [node addChildNode:plane];
 }
 
-- (void)renderer:(id <SCNSceneRenderer>)renderer willUpdateNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
-    
-}
-
-- (void)renderer:(id <SCNSceneRenderer>)renderer didUpdateNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
+- (void)renderer:(id <SCNSceneRenderer>)renderer
+   didUpdateNode:(SCNNode *)node
+       forAnchor:(ARAnchor *)anchor {
     PlaneRendererNode *plane = [self.planes objectForKey:anchor.identifier];
     if (plane == nil) {
         return;
@@ -267,7 +275,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     [plane update:(ARPlaneAnchor *)anchor];
 }
 
-- (void)renderer:(id <SCNSceneRenderer>)renderer didRemoveNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
+- (void)renderer:(id <SCNSceneRenderer>)renderer
+   didRemoveNode:(SCNNode *)node
+       forAnchor:(ARAnchor *)anchor {
     [self.planes removeObjectForKey:anchor.identifier];
 }
 
@@ -280,7 +290,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error"
                                                                                  message:error.localizedDescription
                                                                           preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
         [alertController addAction:action];
         [self presentViewController:alertController animated:YES completion:nil];
     }

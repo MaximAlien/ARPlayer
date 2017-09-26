@@ -10,8 +10,8 @@
 		6D15BA301F744F4C002FABB0 /* PlaneRendererNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D15BA2F1F744F4C002FABB0 /* PlaneRendererNode.m */; };
 		6D1BB41F1F77D2C500E5175E /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1BB41D1F77D2C500E5175E /* SettingsViewController.m */; };
 		6D1BB4201F77D2C500E5175E /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1BB41E1F77D2C500E5175E /* SettingsViewController.xib */; };
-		6D1BB4241F77D3B100E5175E /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1BB4221F77D3B100E5175E /* MainViewController.m */; };
-		6D1BB4251F77D3B100E5175E /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1BB4231F77D3B100E5175E /* MainViewController.xib */; };
+		6D1BB4241F77D3B100E5175E /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1BB4221F77D3B100E5175E /* PlayerViewController.m */; };
+		6D1BB4251F77D3B100E5175E /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1BB4231F77D3B100E5175E /* PlayerViewController.xib */; };
 		6D1CAD511F7713E800D250CB /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1CAD501F7713E800D250CB /* Utils.m */; };
 		6D22FD051F768EAE006CDBD5 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D22FD041F768EAE006CDBD5 /* SettingsManager.m */; };
 		6D2A5E321F73233F0095F03A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2A5E311F73233F0095F03A /* AppDelegate.m */; };
@@ -27,9 +27,9 @@
 		6D1BB41C1F77D2C500E5175E /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6D1BB41D1F77D2C500E5175E /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6D1BB41E1F77D2C500E5175E /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
-		6D1BB4211F77D3B100E5175E /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		6D1BB4221F77D3B100E5175E /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		6D1BB4231F77D3B100E5175E /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		6D1BB4211F77D3B100E5175E /* PlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
+		6D1BB4221F77D3B100E5175E /* PlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
+		6D1BB4231F77D3B100E5175E /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		6D1CAD4F1F7713E800D250CB /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		6D1CAD501F7713E800D250CB /* Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		6D22FD031F768EAE006CDBD5 /* SettingsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsManager.h; sourceTree = "<group>"; };
@@ -59,9 +59,9 @@
 		6D1BB4151F77BDE100E5175E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				6D1BB4211F77D3B100E5175E /* MainViewController.h */,
-				6D1BB4221F77D3B100E5175E /* MainViewController.m */,
-				6D1BB4231F77D3B100E5175E /* MainViewController.xib */,
+				6D1BB4211F77D3B100E5175E /* PlayerViewController.h */,
+				6D1BB4221F77D3B100E5175E /* PlayerViewController.m */,
+				6D1BB4231F77D3B100E5175E /* PlayerViewController.xib */,
 				6D1BB41C1F77D2C500E5175E /* SettingsViewController.h */,
 				6D1BB41D1F77D2C500E5175E /* SettingsViewController.m */,
 				6D1BB41E1F77D2C500E5175E /* SettingsViewController.xib */,
@@ -175,7 +175,7 @@
 			files = (
 				6D2A5E3D1F73233F0095F03A /* LaunchScreen.storyboard in Resources */,
 				6D2A5E3A1F73233F0095F03A /* Assets.xcassets in Resources */,
-				6D1BB4251F77D3B100E5175E /* MainViewController.xib in Resources */,
+				6D1BB4251F77D3B100E5175E /* PlayerViewController.xib in Resources */,
 				6D1BB4201F77D2C500E5175E /* SettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,7 +190,7 @@
 				6D2A5E401F73233F0095F03A /* main.m in Sources */,
 				6D2A5E481F7323930095F03A /* PlayerNode.m in Sources */,
 				6D1BB41F1F77D2C500E5175E /* SettingsViewController.m in Sources */,
-				6D1BB4241F77D3B100E5175E /* MainViewController.m in Sources */,
+				6D1BB4241F77D3B100E5175E /* PlayerViewController.m in Sources */,
 				6D15BA301F744F4C002FABB0 /* PlaneRendererNode.m in Sources */,
 				6D22FD051F768EAE006CDBD5 /* SettingsManager.m in Sources */,
 				6D1CAD511F7713E800D250CB /* Utils.m in Sources */,
@@ -321,7 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = P4RNZKZ54K;
 				INFOPLIST_FILE = ARPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makhun.ARPlayer;
@@ -335,7 +335,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = P4RNZKZ54K;
 				INFOPLIST_FILE = ARPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makhun.ARPlayer;

@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  PlayerViewController.h
 //  ARPlayer
 //
 //  Created by Maxim Makhun on 9/24/17.
@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface MainViewController : UIViewController
+@interface PlayerViewController : UIViewController
 
 @end

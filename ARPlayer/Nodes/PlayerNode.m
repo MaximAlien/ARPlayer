@@ -15,6 +15,7 @@
 @property(nonatomic, strong) AVPlayer *player;
 @property(nonatomic, strong) SCNText *currentTimeGeometry;
 @property(nonatomic, strong) SCNText *remainingTimeGeometry;
+@property(nonatomic, strong) SCNNode *playNode;
 
 @end
 
@@ -64,20 +65,50 @@
     [self createCurrentTimeNode];
 }
 
-- (void)createPlayNode {
+- (SCNShape *)playShape {
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointZero];
     [path addLineToPoint:CGPointMake(0.04f, 0.02f)];
     [path addLineToPoint:CGPointMake(0.0f, 0.04f)];
     [path closePath];
     
-    SCNShape *trianglePrism = [SCNShape shapeWithPath:path extrusionDepth:0.02f];
-    trianglePrism.firstMaterial.diffuse.contents = [UIColor blackColor];
-    SCNNode *playNode = [SCNNode nodeWithGeometry:trianglePrism];
-    playNode.transform = SCNMatrix4MakeRotation(M_PI_2, 1.0f, 0.0f, 0.0f);
-    playNode.position = SCNVector3Make(-0.05f, 0.0f, 0.16f);
-    playNode.name = @"play_node";
-    [self addChildNode:playNode];
+    SCNShape *shape = [SCNShape shapeWithPath:path extrusionDepth:0.02f];
+    shape.firstMaterial.diffuse.contents = [UIColor blackColor];
+
+    return shape;
+}
+
+- (SCNShape *)pauseShape {
+    UIBezierPath *leftPath = [UIBezierPath bezierPath];
+    [leftPath moveToPoint:CGPointZero];
+    [leftPath addLineToPoint:CGPointMake(0.02f, 0.0f)];
+    [leftPath addLineToPoint:CGPointMake(0.02f, 0.04f)];
+    [leftPath addLineToPoint:CGPointMake(0.0f, 0.04f)];
+    [leftPath closePath];
+    [leftPath fill];
+    
+    UIBezierPath *rightPath = [UIBezierPath bezierPath];
+    [rightPath moveToPoint:CGPointMake(0.03f, 0.0f)];
+    [rightPath addLineToPoint:CGPointMake(0.05f, 0.0f)];
+    [rightPath addLineToPoint:CGPointMake(0.05f, 0.04f)];
+    [rightPath addLineToPoint:CGPointMake(0.03f, 0.04f)];
+    [rightPath closePath];
+    [rightPath fill];
+    
+    [leftPath appendPath:rightPath];
+    
+    SCNShape *shape = [SCNShape shapeWithPath:leftPath extrusionDepth:0.02f];
+    shape.firstMaterial.diffuse.contents = [UIColor blackColor];
+    
+    return shape;
+}
+
+- (void)createPlayNode {
+    self.playNode = [SCNNode nodeWithGeometry:[self playShape]];
+    self.playNode.transform = SCNMatrix4MakeRotation(M_PI_2, 1.0f, 0.0f, 0.0f);
+    self.playNode.position = SCNVector3Make(-0.05f, 0.0f, 0.16f);
+    self.playNode.name = @"play_node";
+    [self addChildNode:self.playNode];
 }
 
 - (void)createStopNode {
@@ -119,16 +150,19 @@
 
 - (void)pause {
     _playerPaused = YES;
+    self.playNode.geometry = [self playShape];
     [self.player pause];
 }
 
 - (void)play {
     _playerPaused = NO;
+    self.playNode.geometry = [self pauseShape];
     [self.player play];
 }
 
 - (void)stop {
     _playerPaused = YES;
+    self.playNode.geometry = [self playShape];
     [self.player seekToTime:CMTimeMake(0, 1)];
     [self.player pause];
 }
