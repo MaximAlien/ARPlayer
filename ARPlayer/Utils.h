@@ -12,4 +12,6 @@
 
 + (void)handleTouch:(SCNNode *)node;
 
++ (SCNVector3)getBoundingBox:(SCNNode *)node;
+
 @end

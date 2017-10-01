@@ -21,6 +21,8 @@
     self = [super init];
     
     if (self) {
+        self.name = @"plane_renderer";
+        
         self.anchor = anchor;
         float width = anchor.extent.x;
         float length = anchor.extent.z;

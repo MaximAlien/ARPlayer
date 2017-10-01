@@ -36,4 +36,16 @@
     }
 }
 
++ (SCNVector3)getBoundingBox:(SCNNode *)node {
+    SCNVector3 min = SCNVector3Zero;
+    SCNVector3 max = SCNVector3Zero;
+    [node getBoundingBoxMin:&min max:&max];
+    
+    CGFloat width = max.x - min.x;
+    CGFloat heigth = max.y - min.y;
+    CGFloat length = max.z - min.z;
+    
+    return SCNVector3Make(width, heigth, length);
+}
+
 @end

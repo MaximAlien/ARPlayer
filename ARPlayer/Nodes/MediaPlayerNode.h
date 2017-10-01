@@ -1,6 +1,6 @@
 //
-//  PlayerNode.h
-//  ARKitSceneTest
+//  MediaPlayerNode.h
+//  ARPlayer
 //
 //  Created by Maxim Makhun on 9/20/17.
 //  Copyright © 2017 Maxim Makhun. All rights reserved.
@@ -8,7 +8,7 @@
 
 @import SceneKit;
 
-@interface PlayerNode : SCNNode
+@interface MediaPlayerNode : SCNNode
 
 @property(nonatomic, readonly) BOOL playerPaused;
 
