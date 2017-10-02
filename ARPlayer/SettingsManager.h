@@ -20,4 +20,8 @@ extern NSString * const kNotificationShowPlanes;
 
 @property (nonatomic) BOOL animateOnTouch;
 
+@property (nonatomic) BOOL scaleAllowed;
+
+@property (nonatomic) BOOL rotationAllowed;
+
 @end

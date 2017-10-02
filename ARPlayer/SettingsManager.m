@@ -14,6 +14,8 @@ NSString * const kNotificationShowPlanes = @"kNotificationShowPlanes";
     BOOL _showPlanes;
     BOOL _vibrateOnTouch;
     BOOL _animateOnTouch;
+    BOOL _scaleAllowed;
+    BOOL _rotationAllowed;
 }
 
 @end
@@ -62,6 +64,26 @@ NSString * const kNotificationShowPlanes = @"kNotificationShowPlanes";
     _animateOnTouch = animateOnTouch;
     
     [[NSUserDefaults standardUserDefaults] setBool:_animateOnTouch forKey:@"animateOnTouch"];
+}
+
+- (BOOL)scaleAllowed {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"scaleAllowed"];
+}
+
+- (void)setScaleAllowed:(BOOL)scaleAllowed {
+    _scaleAllowed = scaleAllowed;
+    
+    [[NSUserDefaults standardUserDefaults] setBool:_scaleAllowed forKey:@"scaleAllowed"];
+}
+
+- (BOOL)rotationAllowed {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"rotationAllowed"];
+}
+
+- (void)setRotationAllowed:(BOOL)rotationAllowed {
+    _rotationAllowed = rotationAllowed;
+    
+    [[NSUserDefaults standardUserDefaults] setBool:_rotationAllowed forKey:@"rotationAllowed"];
 }
 
 @end

@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UISwitch *showPlanesSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateOnTouchSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *animateOnTouchSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *scaleAllowedSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *rotationAllowedSwitch;
 
 @end
 
@@ -29,6 +31,8 @@
         [self.showPlanesSwitch setOn:[SettingsManager instance].showPlanes];
         [self.vibrateOnTouchSwitch setOn:[SettingsManager instance].vibrateOnTouch];
         [self.animateOnTouchSwitch setOn:[SettingsManager instance].animateOnTouch];
+        [self.scaleAllowedSwitch setOn:[SettingsManager instance].scaleAllowed];
+        [self.rotationAllowedSwitch setOn:[SettingsManager instance].rotationAllowed];
     }
     
     return self;
@@ -48,6 +52,14 @@
 
 - (IBAction)animateOnTouch:(UISwitch *)sender {
     [SettingsManager instance].animateOnTouch = sender.isOn;
+}
+
+- (IBAction)allowScale:(UISwitch *)sender {
+    [SettingsManager instance].scaleAllowed = sender.isOn;
+}
+
+- (IBAction)allowRotation:(UISwitch *)sender {
+    [SettingsManager instance].rotationAllowed = sender.isOn;
 }
 
 @end

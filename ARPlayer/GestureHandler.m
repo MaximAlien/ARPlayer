@@ -9,8 +9,13 @@
 @import SceneKit;
 
 #import "GestureHandler.h"
+
+// Nodes
 #import "MediaPlayerNode.h"
+
+// Utils
 #import "Utils.h"
+#import "SettingsManager.h"
 
 @implementation GestureHandler
 
@@ -63,71 +68,75 @@
 
 + (void)handleScale:(UIPinchGestureRecognizer *)recognizer
         inSceneView:(ARSCNView *)sceneView {
-    CGPoint tapPoint = [recognizer locationInView:sceneView];
-    static SCNNode *node;
-    UIPinchGestureRecognizer *pinchGestureRecognizer = (UIPinchGestureRecognizer *)recognizer;
-    
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        NSArray<SCNHitTestResult *> *result = [sceneView hitTest:tapPoint options:nil];
-        if ([result count] == 0) {
-            tapPoint = [recognizer locationOfTouch:0 inView:sceneView];
-            result = [sceneView hitTest:tapPoint options:nil];
-            if ([result count] == 0) {
-                return;
-            }
-        }
+    if ([SettingsManager instance].scaleAllowed) {
+        CGPoint tapPoint = [recognizer locationInView:sceneView];
+        static SCNNode *node;
+        UIPinchGestureRecognizer *pinchGestureRecognizer = (UIPinchGestureRecognizer *)recognizer;
         
-        SCNHitTestResult *hitResult = [result firstObject];
-        if ([hitResult.node.name isEqualToString:@"tv_node"]) {
-            node = hitResult.node;
-        } else if ([hitResult.node.name isEqualToString:@"video_renderer_node"]) {
-            node = hitResult.node.parentNode;
-        }
-    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        if (node) {
-            CGFloat pinchScaleX = pinchGestureRecognizer.scale * node.scale.x;
-            CGFloat pinchScaleY = pinchGestureRecognizer.scale * node.scale.y;
-            CGFloat pinchScaleZ = pinchGestureRecognizer.scale * node.scale.z;
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            NSArray<SCNHitTestResult *> *result = [sceneView hitTest:tapPoint options:nil];
+            if ([result count] == 0) {
+                tapPoint = [recognizer locationOfTouch:0 inView:sceneView];
+                result = [sceneView hitTest:tapPoint options:nil];
+                if ([result count] == 0) {
+                    return;
+                }
+            }
             
-            [node setScale:SCNVector3Make(pinchScaleX, pinchScaleY, pinchScaleZ)];
+            SCNHitTestResult *hitResult = [result firstObject];
+            if ([hitResult.node.name isEqualToString:@"tv_node"]) {
+                node = hitResult.node;
+            } else if ([hitResult.node.name isEqualToString:@"video_renderer_node"]) {
+                node = hitResult.node.parentNode;
+            }
+        } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+            if (node) {
+                CGFloat pinchScaleX = pinchGestureRecognizer.scale * node.scale.x;
+                CGFloat pinchScaleY = pinchGestureRecognizer.scale * node.scale.y;
+                CGFloat pinchScaleZ = pinchGestureRecognizer.scale * node.scale.z;
+                
+                [node setScale:SCNVector3Make(pinchScaleX, pinchScaleY, pinchScaleZ)];
+            }
+            pinchGestureRecognizer.scale = 1;
+        } else if (recognizer.state == UIGestureRecognizerStateEnded) {
+            node = nil;
         }
-        pinchGestureRecognizer.scale = 1;
-    } else if (recognizer.state == UIGestureRecognizerStateEnded) {
-        node = nil;
     }
 }
 
 + (void)handleRotation:(UIRotationGestureRecognizer *)recognizer
            inSceneView:(ARSCNView *)sceneView {
-    CGPoint tapPoint = [recognizer locationInView:sceneView];
-    static SCNNode *node;
-    static CGFloat lastRotation = 0.0f;
-    
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        NSArray<SCNHitTestResult *> *result = [sceneView hitTest:tapPoint options:nil];
-        if ([result count] == 0) {
-            tapPoint = [recognizer locationOfTouch:0 inView:sceneView];
-            result = [sceneView hitTest:tapPoint options:nil];
+    if ([SettingsManager instance].rotationAllowed) {
+        CGPoint tapPoint = [recognizer locationInView:sceneView];
+        static SCNNode *node;
+        static CGFloat lastRotation = 0.0f;
+        
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+            NSArray<SCNHitTestResult *> *result = [sceneView hitTest:tapPoint options:nil];
             if ([result count] == 0) {
-                return;
+                tapPoint = [recognizer locationOfTouch:0 inView:sceneView];
+                result = [sceneView hitTest:tapPoint options:nil];
+                if ([result count] == 0) {
+                    return;
+                }
             }
+            
+            SCNHitTestResult *hitResult = [result firstObject];
+            if ([hitResult.node.name isEqualToString:@"tv_node"]) {
+                node = hitResult.node;
+            } else if ([hitResult.node.name isEqualToString:@"video_renderer_node"]) {
+                node = hitResult.node.parentNode;
+            }
+            
+            lastRotation = recognizer.rotation * (- 180 / M_PI);
+        } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+            float rotation = recognizer.rotation * (- 180 / M_PI);
+            [node runAction:[SCNAction rotateByX:0
+                                               y:rotation - lastRotation
+                                               z:0
+                                        duration:0.0f]];
+            lastRotation = rotation;
         }
-        
-        SCNHitTestResult *hitResult = [result firstObject];
-        if ([hitResult.node.name isEqualToString:@"tv_node"]) {
-            node = hitResult.node;
-        } else if ([hitResult.node.name isEqualToString:@"video_renderer_node"]) {
-            node = hitResult.node.parentNode;
-        }
-        
-        lastRotation = recognizer.rotation * (- 180 / M_PI);
-    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        float rotation = recognizer.rotation * (- 180 / M_PI);
-        [node runAction:[SCNAction rotateByX:0
-                                           y:rotation - lastRotation
-                                           z:0
-                                    duration:0.0f]];
-        lastRotation = rotation;
     }
 }
 
