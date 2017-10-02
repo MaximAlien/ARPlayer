@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *animateOnTouchSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *scaleAllowedSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *rotationAllowedSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *repositionAllowedSwitch;
 
 @end
 
@@ -33,6 +34,7 @@
         [self.animateOnTouchSwitch setOn:[SettingsManager instance].animateOnTouch];
         [self.scaleAllowedSwitch setOn:[SettingsManager instance].scaleAllowed];
         [self.rotationAllowedSwitch setOn:[SettingsManager instance].rotationAllowed];
+        [self.repositionAllowedSwitch setOn:[SettingsManager instance].repositionAllowed];
     }
     
     return self;
@@ -60,6 +62,10 @@
 
 - (IBAction)allowRotation:(UISwitch *)sender {
     [SettingsManager instance].rotationAllowed = sender.isOn;
+}
+
+- (IBAction)allowReposition:(UISwitch *)sender {
+    [SettingsManager instance].repositionAllowed = sender.isOn;
 }
 
 @end

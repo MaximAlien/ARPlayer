@@ -24,4 +24,6 @@ extern NSString * const kNotificationShowPlanes;
 
 @property (nonatomic) BOOL rotationAllowed;
 
+@property (nonatomic) BOOL repositionAllowed;
+
 @end

@@ -140,4 +140,20 @@
     }
 }
 
++ (void)handlePosition:(UIPanGestureRecognizer *)recognizer
+           inSceneView:(ARSCNView *)sceneView {
+    if ([SettingsManager instance].repositionAllowed) {
+        CGPoint tapPoint = [recognizer locationInView:sceneView];
+        if (recognizer.state == UIGestureRecognizerStateChanged) {
+            NSArray<ARHitTestResult *> *arHitTestResults = [sceneView hitTest:tapPoint
+                                                                        types:ARHitTestResultTypeExistingPlaneUsingExtent];
+            if (arHitTestResults.count != 0) {
+                ARHitTestResult *hitResult = [arHitTestResults firstObject];
+                MediaPlayerNode *mediaPlayerNode = (MediaPlayerNode *)[sceneView.scene.rootNode childNodeWithName:@"media_player_node" recursively:NO];
+                [mediaPlayerNode setSimdTransform:hitResult.worldTransform];
+            }
+        }
+    }
+}
+
 @end

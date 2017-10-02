@@ -23,4 +23,7 @@
 + (void)handleRotation:(UIRotationGestureRecognizer *)recognizer
            inSceneView:(ARSCNView *)sceneView;
 
++ (void)handlePosition:(UIPanGestureRecognizer *)recognizer
+           inSceneView:(ARSCNView *)sceneView;
+
 @end

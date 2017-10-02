@@ -16,6 +16,7 @@ NSString * const kNotificationShowPlanes = @"kNotificationShowPlanes";
     BOOL _animateOnTouch;
     BOOL _scaleAllowed;
     BOOL _rotationAllowed;
+    BOOL _repositionAllowed;
 }
 
 @end
@@ -84,6 +85,16 @@ NSString * const kNotificationShowPlanes = @"kNotificationShowPlanes";
     _rotationAllowed = rotationAllowed;
     
     [[NSUserDefaults standardUserDefaults] setBool:_rotationAllowed forKey:@"rotationAllowed"];
+}
+
+- (BOOL)repositionAllowed {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"repositionAllowed"];
+}
+
+- (void)setRepositionAllowed:(BOOL)repositionAllowed {
+    _repositionAllowed = repositionAllowed;
+    
+    [[NSUserDefaults standardUserDefaults] setBool:_repositionAllowed forKey:@"repositionAllowed"];
 }
 
 @end

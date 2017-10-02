@@ -95,6 +95,11 @@
                                                                                                           action:@selector(handleGesture:)];
     rotationGestureRecognizer.delegate = self;
     [self.sceneView addGestureRecognizer:rotationGestureRecognizer];
+    
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                                           action:@selector(handleGesture:)];
+    panGestureRecognizer.delegate = self;
+    [self.sceneView addGestureRecognizer:panGestureRecognizer];
 }
 
 - (void)subscribeForNotifications {
@@ -142,6 +147,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
                         inSceneView:self.sceneView];
     } else if ([recognizer isKindOfClass:UIRotationGestureRecognizer.class]) {
         [GestureHandler handleRotation:(UIRotationGestureRecognizer *)recognizer
+                           inSceneView:self.sceneView];
+    } else if ([recognizer isKindOfClass:UIPanGestureRecognizer.class]) {
+        [GestureHandler handlePosition:(UIPanGestureRecognizer *)recognizer
                            inSceneView:self.sceneView];
     }
 }
