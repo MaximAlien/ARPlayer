@@ -1,0 +1,12 @@
+language: objective-c
+osx_image: xcode9
+
+script:
+  xcodebuild clean build
+  -sdk iphonesimulator
+  -project ARPlayer.xcodeproj
+  -scheme ARPlayer
+  CODE_SIGNING_REQUIRED=NO
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
