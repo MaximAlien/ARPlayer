@@ -84,10 +84,9 @@
             }
             
             SCNHitTestResult *hitResult = [result firstObject];
-            if ([hitResult.node.name isEqualToString:@"tv_node"]) {
-                node = hitResult.node;
-            } else if ([hitResult.node.name isEqualToString:@"video_renderer_node"]) {
-                node = hitResult.node.parentNode;
+            if ([hitResult.node.name isEqualToString:@"tv_node"] ||
+                ([hitResult.node.name isEqualToString:@"video_renderer_node"])) {
+                node = (MediaPlayerNode *)[sceneView.scene.rootNode childNodeWithName:@"media_player_node" recursively:NO];
             }
         } else if (recognizer.state == UIGestureRecognizerStateChanged) {
             if (node) {
@@ -122,10 +121,9 @@
             }
             
             SCNHitTestResult *hitResult = [result firstObject];
-            if ([hitResult.node.name isEqualToString:@"tv_node"]) {
-                node = hitResult.node;
-            } else if ([hitResult.node.name isEqualToString:@"video_renderer_node"]) {
-                node = hitResult.node.parentNode;
+            if ([hitResult.node.name isEqualToString:@"tv_node"] ||
+                ([hitResult.node.name isEqualToString:@"video_renderer_node"])) {
+                node = (MediaPlayerNode *)[sceneView.scene.rootNode childNodeWithName:@"media_player_node" recursively:NO];
             }
             
             lastRotation = recognizer.rotation * (- 180 / M_PI);
