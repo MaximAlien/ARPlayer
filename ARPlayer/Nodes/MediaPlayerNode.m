@@ -9,7 +9,6 @@
 #import "MediaPlayerNode.h"
 #import "PlayNode.h"
 #import "StopNode.h"
-#import "CurrentTimeNode.h"
 #import "TVNode.h"
 
 @interface MediaPlayerNode ()
@@ -35,10 +34,6 @@
         self.playNode = [PlayNode node];
         [self addChildNode:self.playNode];
         [self addChildNode:[StopNode node]];
-        
-        CurrentTimeNode *currentTimeNode = [CurrentTimeNode node];
-        [currentTimeNode subscribeForPlayerTimeUpdates:self.tvNode.player];
-        [self addChildNode:currentTimeNode];
     }
     
     return self;

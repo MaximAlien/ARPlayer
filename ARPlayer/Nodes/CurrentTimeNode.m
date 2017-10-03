@@ -14,14 +14,13 @@
     self = [super init];
     
     if (self) {
-        SCNText *geometry = [self createTimeGeometryWithFrame:CGRectMake(-0.2f, -0.25f, 0.6f, 0.25f)];
+        SCNText *geometry = [self createTimeGeometryWithFrame:CGRectMake(0.0f, 0.0f, 1.8f, 1.5f)];
         geometry.alignmentMode = kCAAlignmentCenter;
         
         SCNMaterial *mainMaterial = [SCNMaterial new];
-        mainMaterial.diffuse.contents = [UIColor blackColor];
+        mainMaterial.diffuse.contents = [UIColor redColor];
         geometry.firstMaterial = mainMaterial;
-        
-        self.position = SCNVector3Make(0.0f, 0.0f, -0.2f);
+        self.scale = SCNVector3Make(0.02f, 0.02f, 0.02f);
         [self setGeometry:geometry];
     }
     
@@ -29,9 +28,10 @@
 }
 
 - (SCNText *)createTimeGeometryWithFrame:(CGRect)frame {
-    SCNText *timeGeometry = [SCNText textWithString:@"00:00" extrusionDepth:0.02f];
-    timeGeometry.font = [UIFont systemFontOfSize:0.14f];
+    SCNText *timeGeometry = [SCNText textWithString:@"00:00" extrusionDepth:0.1f];
+    timeGeometry.font = [UIFont systemFontOfSize:0.9f];
     timeGeometry.containerFrame = frame;
+    timeGeometry.flatness = 0.005f;
     
     return timeGeometry;
 }

@@ -8,6 +8,7 @@
 
 #import "TVNode.h"
 #import "Utils.h"
+#import "CurrentTimeNode.h"
 
 @interface TVNode ()
 
@@ -58,6 +59,11 @@
     videoRendererNode.geometry.materials = @[playerMaterial, mainMaterial, mainMaterial, mainMaterial, mainMaterial, mainMaterial];
     
     [self.tvNode addChildNode:videoRendererNode];
+    
+    CurrentTimeNode *currentTimeNode = [CurrentTimeNode node];
+    currentTimeNode.position = SCNVector3Make(-0.025f, -0.1f, 0.003f);
+    [currentTimeNode subscribeForPlayerTimeUpdates:_player];
+    [videoRendererNode addChildNode:currentTimeNode];
 }
 
 @end
