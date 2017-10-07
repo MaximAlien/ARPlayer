@@ -23,7 +23,7 @@
 
 @interface PlayerViewController () <ARSCNViewDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) IBOutlet ARSCNView *sceneView;
+@property (nonatomic, weak) IBOutlet ARSCNView *sceneView;
 @property (nonatomic, strong) NSMutableDictionary *planes;
 
 @end
@@ -66,7 +66,7 @@
     self.planes = [NSMutableDictionary new];
     
     self.sceneView.delegate = self;
-    self.sceneView.showsStatistics = YES;
+    self.sceneView.showsStatistics = NO;
     
     SCNScene *scene = [SCNScene scene];
     self.sceneView.scene = scene;

@@ -137,7 +137,6 @@
                     </constraints>
                     <connections>
                         <action selector="allowReposition:" destination="-1" eventType="valueChanged" id="F9Z-Mj-m75"/>
-                        <action selector="allowRotation:" destination="-1" eventType="valueChanged" id="tyS-4p-MMY"/>
                     </connections>
                 </switch>
             </subviews>
