@@ -8,6 +8,12 @@
 
 #import "CurrentTimeNode.h"
 
+@interface CurrentTimeNode()
+
+@property (nonatomic, strong) id timeObserver;
+
+@end
+
 @implementation CurrentTimeNode
 
 - (instancetype)init {
@@ -18,7 +24,7 @@
         geometry.alignmentMode = kCAAlignmentCenter;
         
         SCNMaterial *mainMaterial = [SCNMaterial new];
-        mainMaterial.diffuse.contents = [UIColor redColor];
+        mainMaterial.diffuse.contents = [UIColor whiteColor];
         geometry.firstMaterial = mainMaterial;
         self.scale = SCNVector3Make(0.02f, 0.02f, 0.02f);
         [self setGeometry:geometry];
@@ -38,19 +44,27 @@
 
 - (void)subscribeForPlayerTimeUpdates:(AVPlayer *)player {
     __weak typeof(self) weakSelf = self;
-    [player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC)
-                                         queue:nil
-                                    usingBlock:^(CMTime time) {
-                                        Float64 seconds = CMTimeGetSeconds(time);
-                                        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
-                                        NSDateFormatter *dateFormatter = [NSDateFormatter new];
-                                        [dateFormatter setDateFormat:(int)(seconds / 3600) > 0 ? @"HH:mm:ss" : @"mm:ss"];
-                                        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-                                        
-                                        SCNText *textGeometry = (SCNText *)weakSelf.geometry;
-                                        textGeometry.string = [dateFormatter stringFromDate:date];
-                                        weakSelf.geometry = textGeometry;
-                                    }];
+    self.timeObserver = [player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC)
+                                                             queue:nil
+                                                        usingBlock:^(CMTime time) {
+                                                            Float64 seconds = CMTimeGetSeconds(time);
+                                                            NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+                                                            NSDateFormatter *dateFormatter = [NSDateFormatter new];
+                                                            [dateFormatter setDateFormat:(int)(seconds / 3600) > 0 ? @"HH:mm:ss" : @"mm:ss"];
+                                                            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                                                            
+                                                            SCNText *textGeometry = (SCNText *)weakSelf.geometry;
+                                                            textGeometry.string = [dateFormatter stringFromDate:date];
+                                                            weakSelf.geometry = textGeometry;
+                                                        }];
+}
+
+- (void)resetTimeForPlayer:(AVPlayer *)player {
+    [player removeTimeObserver:self.timeObserver];
+    
+    SCNText *textGeometry = (SCNText *)self.geometry;
+    textGeometry.string = @"00:00";
+    self.geometry = textGeometry;
 }
 
 @end

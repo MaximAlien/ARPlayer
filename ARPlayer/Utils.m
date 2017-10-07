@@ -48,4 +48,10 @@
     return SCNVector3Make(width, heigth, length);
 }
 
++ (NSArray<NSURL *> *)playlist {
+    return [NSArray arrayWithObjects:
+            [NSURL URLWithString:@"http://devstreaming.apple.com/videos/wwdc/2014/609xxkxq1v95fju/609/609_sd_whats_new_in_scenekit.mov"],
+            [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"sample_video_iTunes" ofType:@"mov"]], nil];
+}
+
 @end

@@ -10,6 +10,10 @@
 
 @interface MediaPlayerNode : SCNNode
 
+- (instancetype)initWithPlaylist:(NSArray<NSURL *> *)playlist;
+
+@property(nonatomic, strong) NSArray<NSURL *> *playlistArray;
+
 @property(nonatomic, readonly) BOOL playerPaused;
 
 - (void)pause;
@@ -17,5 +21,9 @@
 - (void)play;
 
 - (void)stop;
+
+- (void)toNextTrack;
+
+- (void)toPreviousTrack;
 
 @end

@@ -9,8 +9,14 @@
 @import SceneKit;
 @import AVFoundation;
 
+#import "CurrentTimeNode.h"
+
 @interface TVNode : SCNNode
 
 @property(nonatomic, strong, readonly) AVPlayer *player;
+
+@property(nonatomic, strong, readonly) CurrentTimeNode *currentTimeNode;
+
+- (void)updateVideoNodeWithPlayer:(AVPlayer *)player;
 
 @end

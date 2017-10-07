@@ -43,6 +43,12 @@
             } else {
                 [mediaPlayerNode pause];
             }
+        } else if ([hitResult.node.name isEqualToString:@"next_track_node"]) {
+            [Utils handleTouch:hitResult.node];
+            [mediaPlayerNode toNextTrack];
+        } else if ([hitResult.node.name isEqualToString:@"previous_track_node"]) {
+            [Utils handleTouch:hitResult.node];
+            [mediaPlayerNode toPreviousTrack];
         }
     }
 }
@@ -57,8 +63,8 @@
         if (arHitTestResults.count != 0) {
             ARHitTestResult *hitResult = [arHitTestResults firstObject];
             simd_float4 column = hitResult.anchor.transform.columns[3];
-            
-            MediaPlayerNode *mediaPlayerNode = [MediaPlayerNode new];
+
+            MediaPlayerNode *mediaPlayerNode = [[MediaPlayerNode alloc] initWithPlaylist:[Utils playlist]];
             mediaPlayerNode.position = SCNVector3Make(column.x, column.y, column.z);
             [mediaPlayerNode play];
             [sceneView.scene.rootNode addChildNode:mediaPlayerNode];

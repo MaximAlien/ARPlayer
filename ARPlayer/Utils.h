@@ -14,4 +14,6 @@
 
 + (SCNVector3)getBoundingBox:(SCNNode *)node;
 
++ (NSArray<NSURL *> *)playlist;
+
 @end

@@ -13,4 +13,6 @@
 
 - (void)subscribeForPlayerTimeUpdates:(AVPlayer *)player;
 
+- (void)resetTimeForPlayer:(AVPlayer *)player;
+
 @end
