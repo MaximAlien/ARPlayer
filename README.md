@@ -1,9 +1,9 @@
 # ARPlayer
 
-Playback videos by placing TV anywhere on the surface using ARKit and AVFoundation.
-
 [![Build Status](https://travis-ci.org/MaximAlien/ARPlayer.svg?branch=master)](https://travis-ci.org/MaximAlien/ARPlayer)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+Playback videos by placing TV anywhere on the surface using ARKit and AVFoundation.
 
 ## Features
 Current version of ARPlayer has such features:
