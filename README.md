@@ -14,4 +14,4 @@ Current version of ARPlayer has such features:
 ## Example
 Full example can be found [here](https://www.youtube.com/watch?v=2cl9tNzfBYc).
 
-![Screen1](https://raw.githubusercontent.com/MaximAlien/ARPlayer/master/ARPlayer/Resources/example.png)
+![Screen1](https://raw.githubusercontent.com/MaximAlien/ARPlayer/master/ARPlayer/Resources/example.gif)
