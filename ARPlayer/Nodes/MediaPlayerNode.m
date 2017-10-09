@@ -13,6 +13,9 @@
 #import "TVNode.h"
 #import "NextTrackNode.h"
 
+// Utils
+#import "Utils.h"
+
 @interface MediaPlayerNode ()
 
 @property (nonatomic, strong) TVNode *tvNode;
@@ -47,7 +50,7 @@
     self.currentPlaybackIndex = 0;
     _playerPaused = YES;
     self.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic shape:nil];
-    self.name = @"media_player_node";
+    self.name = kMediaPlayerNode;
     
     self.tvNode = [TVNode node];
     [self addChildNode:self.tvNode];
@@ -59,13 +62,13 @@
     NextTrackNode *nextTrackNode = [NextTrackNode new];
     nextTrackNode.position = SCNVector3Make(0.12f, 0.0f, 0.08f);
     nextTrackNode.eulerAngles = SCNVector3Make(M_PI_2, 0.0f, 0.0f);
-    nextTrackNode.name = @"next_track_node";
+    nextTrackNode.name = kNextTrackNode;
     [self addChildNode:nextTrackNode];
     
     NextTrackNode *previousTrackNode = [NextTrackNode new];
     previousTrackNode.position = SCNVector3Make(-0.12f, 0.0f, 0.12f);
     previousTrackNode.eulerAngles = SCNVector3Make(M_PI_2, M_PI, 0.0f);
-    previousTrackNode.name = @"previous_track_node";
+    previousTrackNode.name = kPreviousTrackNode;
     [self addChildNode:previousTrackNode];
 }
 

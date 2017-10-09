@@ -8,6 +8,9 @@
 
 #import "StopNode.h"
 
+// Utils
+#import "Utils.h"
+
 @implementation StopNode
 
 - (instancetype)init {
@@ -24,7 +27,7 @@
         self.geometry = stopNodeGeometry;
         self.position = SCNVector3Make(0.05f, 0.0f, 0.1f);
         self.geometry.firstMaterial = mainMaterial;
-        self.name = @"stop_node";
+        self.name = kStopNode;
     }
     
     return self;

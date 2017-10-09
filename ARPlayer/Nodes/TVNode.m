@@ -6,9 +6,12 @@
 //  Copyright © 2017 Maxim Makhun. All rights reserved.
 //
 
+// Nodes
 #import "TVNode.h"
-#import "Utils.h"
 #import "CurrentTimeNode.h"
+
+// Utils
+#import "Utils.h"
 
 static void * CurrentItemObservationContext = &CurrentItemObservationContext;
 
@@ -33,10 +36,11 @@ static void * CurrentItemObservationContext = &CurrentItemObservationContext;
 }
 
 - (void)createTvNode {
-    self.tvNode = [[SCNScene sceneNamed:@"Art.scnassets/tv_scene.scn"].rootNode childNodeWithName:@"tv_node" recursively:NO];
+    self.tvNode = [[SCNScene sceneNamed:@"Art.scnassets/tv_scene.scn"].rootNode childNodeWithName:kTVNode
+                                                                                      recursively:NO];
     self.tvNode.geometry.firstMaterial.diffuse.contents = [[UIColor blackColor] colorWithAlphaComponent:1.0f];
     self.tvNode.movabilityHint = SCNMovabilityHintFixed;
-    self.tvNode.name = @"tv_node";
+    self.tvNode.name = kTVNode;
     
     [self addChildNode:self.tvNode];
 }
@@ -58,7 +62,7 @@ static void * CurrentItemObservationContext = &CurrentItemObservationContext;
                                              chamferRadius:0.0f];
     self.videoRendererNode.position = SCNVector3Make(0.0f, -0.008f, 0.01f);
     self.videoRendererNode.eulerAngles = SCNVector3Make(M_PI_2, 0.0f, 0.0f);
-    self.videoRendererNode.name = @"video_renderer_node";
+    self.videoRendererNode.name = kVideoRendererNode;
     
     self.videoRendererNode.geometry.firstMaterial = [self mainMaterial];
     

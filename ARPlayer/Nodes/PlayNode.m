@@ -8,6 +8,9 @@
 
 #import "PlayNode.h"
 
+// Utils
+#import "Utils.h"
+
 @implementation PlayNode
 
 - (instancetype)init {
@@ -16,7 +19,7 @@
     if (self) {
         self.eulerAngles = SCNVector3Make(M_PI_2, 0.0f, 0.0f);
         self.position = SCNVector3Make(-0.07f, 0.0f, 0.08f);
-        self.name = @"play_node";
+        self.name = kPlayNode;
     }
     
     return self;
