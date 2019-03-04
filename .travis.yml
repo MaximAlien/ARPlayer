@@ -8,5 +8,12 @@ script:
   -scheme ARPlayer
   CODE_SIGNING_REQUIRED=NO
 
+  xcodebuild clean test 
+  -sdk iphonesimulator 
+  -project ARPlayer.xcodeproj 
+  -scheme ARPlayerTestHarness 
+  -destination 'platform=iOS Simulator,name=iPhone XS,OS=12.1'
+  CODE_SIGNING_REQUIRED=NO
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
