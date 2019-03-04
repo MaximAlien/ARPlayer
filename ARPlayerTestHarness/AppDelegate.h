@@ -6,7 +6,7 @@
 //  Copyright © 2019 Maxim Makhun. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
