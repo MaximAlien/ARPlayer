@@ -15,6 +15,10 @@
 
 // Utils
 #import "PlaylistService.h"
+#import "Constants.h"
+
+// Categories
+#import "UIViewController+Helpers.h"
 
 @implementation NodeInsertionHandler
 
@@ -22,6 +26,13 @@
     NSAssert([gesture isKindOfClass:[UILongPressGestureRecognizer class]], @"Different class type is expected.");
 
     if (gesture.state == UIGestureRecognizerStateBegan) {
+        SCNNode *node = [sceneView.scene.rootNode childNodeWithName:kMediaPlayerNode
+                                                        recursively:YES];
+        if (node != nil) {
+            [[UIApplication sharedApplication].keyWindow.rootViewController showMessage:@"It's possible to create only one instance of ARPlayer."];
+            return;
+        }
+
         CGPoint tapPoint = [gesture locationInView:sceneView];
         NSArray<ARHitTestResult *> *arHitTestResults = [sceneView hitTest:tapPoint
                                                                     types:ARHitTestResultTypeExistingPlaneUsingExtent];
