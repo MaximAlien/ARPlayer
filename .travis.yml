@@ -7,6 +7,8 @@ script:
   -project ARPlayer.xcodeproj
   -scheme ARPlayer
   CODE_SIGNING_REQUIRED=NO
+  GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES 
+  GCC_GENERATE_TEST_COVERAGE_FILES=YES
 
   xcodebuild clean test 
   -sdk iphonesimulator 
@@ -16,4 +18,4 @@ script:
   CODE_SIGNING_REQUIRED=NO
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -t 91f7bca2-08e2-4138-8184-12bf4cc33e00
+  - bash <(curl -s https://codecov.io/bash)
