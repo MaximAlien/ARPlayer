@@ -8,10 +8,7 @@
 
 #import "SwitchTrackNode.h"
 
-// Protocols
-#import "PlayerNodeProtocol.h"
-
-@interface SwitchTrackNode () <PlayerNodeProtocol>
+@interface SwitchTrackNode ()
 
 @end
 

@@ -8,9 +8,15 @@
 
 @import SceneKit;
 
+#import "ControlNode.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface StopNode : SCNNode
+/*!
+ @class StopNode
+ @abstract Node by pressing on which playback can be stopped.
+ */
+@interface StopNode : ControlNode
 
 @end
 

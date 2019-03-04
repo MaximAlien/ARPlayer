@@ -17,12 +17,16 @@
     self = [super init];
     
     if (self) {
-        self.eulerAngles = SCNVector3Make(M_PI_2, 0.0f, 0.0f);
-        self.position = SCNVector3Make(-0.07f, 0.0f, 0.08f);
-        self.name = kPlayNode;
+        [self setupNode];
     }
     
     return self;
+}
+
+- (void)setupNode {
+    self.eulerAngles = SCNVector3Make(M_PI_2, 0.0f, 0.0f);
+    self.position = SCNVector3Make(-0.07f, 0.0f, 0.08f);
+    self.name = kPlayNode;
 }
 
 - (SCNShape *)playShape {
@@ -63,12 +67,14 @@
     return shape;
 }
 
-- (void)updateState:(PlayerState)state {
+- (void)setState:(PlayerState)state {
+    _state = state;
+
     switch (state) {
-        case StatePlaying:
+        case Playing:
             [self setGeometry:[self pauseShape]];
             break;
-        case StatePaused:
+        case Paused:
             [self setGeometry:[self playShape]];
             break;
     }

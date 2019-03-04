@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSDateFormatter (Helpers)
 
-+ (NSString *)toString:(CMTime)time;
++ (NSString *)currentTimeStringForTime:(CMTime)time;
 
 @end
 

@@ -24,6 +24,7 @@
 @property (nonatomic, strong) StopNode *stopNode;
 @property (nonatomic, strong) NextTrackNode *nextTrackNode;
 @property (nonatomic, strong) PreviousTrackNode *previousTrackNode;
+@property (nonatomic, strong) NSArray<NSURL *> *playlist;
 @property (nonatomic) NSInteger currentPlaybackIndex;
 
 @end
@@ -37,27 +38,20 @@
     
     if (self) {
         self.playlist = playlist;
+        [self constructNodes];
+        [self setupMediaPlayerNode];
     }
     
     return self;
 }
 
-- (instancetype)init {
-    self = [super init];
-    
-    if (self) {
-        [self constructNodes];
-    }
-    
-    return self;
+- (void)setupMediaPlayerNode {
+    self.currentPlaybackIndex = 0;
+    self.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic shape:nil];
+    self.name = kMediaPlayerNode;
 }
 
 - (void)constructNodes {
-    self.currentPlaybackIndex = 0;
-    _playerPaused = YES;
-    self.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic shape:nil];
-    self.name = kMediaPlayerNode;
-    
     self.tvNode = [TVNode node];
     [self addChildNode:self.tvNode];
     
@@ -77,33 +71,54 @@
 #pragma mark - Video player control logic
 
 - (void)pause {
-    _playerPaused = YES;
-    
-    [self.playNode updateState:StatePaused];
+    self.playNode.state = Paused;
     [self.tvNode.player pause];
+}
+
+- (void)playAnimated:(BOOL)animated {
+    if (self.playlist.count != 0) {
+        if (self.tvNode.player == NULL) {
+            [self switchToTrackWithIndex:self.currentPlaybackIndex];
+        } else {
+            [self.tvNode.player play];
+        }
+
+        self.playNode.state = Playing;
+    } else {
+        NSLog(@"[%s] Playlist empty, playback won't be started.", __FUNCTION__);
+    }
 }
 
 - (void)play {
     if (self.playlist.count != 0) {
-        _playerPaused = NO;
-        
         if (self.tvNode.player == NULL) {
             [self switchToTrackWithIndex:self.currentPlaybackIndex];
         } else {
             [self.tvNode.player play];
         }
         
-        [self.playNode updateState:StatePlaying];
+        self.playNode.state = Playing;
     } else {
         NSLog(@"[%s] Playlist empty, playback won't be started.", __FUNCTION__);
     }
 }
 
+- (void)togglePlay {
+    switch (self.playNode.state) {
+        case Playing:
+            [self pause];
+            break;
+        case Paused:
+            [self play];
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)stop {
-    _playerPaused = YES;
-    
-    [self.playNode updateState:StatePaused];
-    [self.tvNode updateVideoNodeWithPlayer:nil];
+    self.playNode.state = Paused;
+    self.tvNode.player = nil;
 }
 
 #pragma mark - Video player track switching logic
@@ -124,10 +139,10 @@
     AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.playlist[index]];
     
     if (self.tvNode.player.currentItem != playerItem) {
-        [self.tvNode updateVideoNodeWithPlayer:[AVPlayer playerWithPlayerItem:playerItem]];
+        self.tvNode.player = [AVPlayer playerWithPlayerItem:playerItem];
     }
     
-    [self.playNode updateState:StatePlaying];
+    self.playNode.state = Playing;
 }
 
 @end

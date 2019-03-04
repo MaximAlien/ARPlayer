@@ -1,5 +1,5 @@
 //
-//  SCNMaterial+Colors.h
+//  SCNMaterial+Contents.h
 //  ARPlayer
 //
 //  Created by Maxim Makhun on 03/03/2019.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SCNMaterial (Colors)
+@interface SCNMaterial (Contents)
 
 + (instancetype)materialWithColor:(UIColor *)color;
 

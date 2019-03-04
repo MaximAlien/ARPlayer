@@ -26,26 +26,35 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.modalPresentationStyle = UIModalPresentationPopover;
-        self.popoverPresentationController.delegate = self;
-        self.view.backgroundColor = [UIColor whiteColor];
-        
-        [self.showPlanesSwitch setOn:[SettingsManager instance].showPlanes];
-        [self.vibrateOnTouchSwitch setOn:[SettingsManager instance].vibrateOnTouch];
-        [self.animateOnTouchSwitch setOn:[SettingsManager instance].animateOnTouch];
-        [self.scaleAllowedSwitch setOn:[SettingsManager instance].scaleAllowed];
-        [self.rotationAllowedSwitch setOn:[SettingsManager instance].rotationAllowed];
-        [self.repositionAllowedSwitch setOn:[SettingsManager instance].repositionAllowed];
+        [self setupUI];
+        [self setupSettings];
     }
     
     return self;
+}
+
+#pragma mark - Setting-up methods
+
+- (void)setupUI {
+    self.modalPresentationStyle = UIModalPresentationPopover;
+    self.popoverPresentationController.delegate = self;
+    self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)setupSettings {
+    [self.showPlanesSwitch setOn:[SettingsManager instance].showPlanes];
+    [self.vibrateOnTouchSwitch setOn:[SettingsManager instance].vibrateOnTouch];
+    [self.animateOnTouchSwitch setOn:[SettingsManager instance].animateOnTouch];
+    [self.scaleAllowedSwitch setOn:[SettingsManager instance].scaleAllowed];
+    [self.rotationAllowedSwitch setOn:[SettingsManager instance].rotationAllowed];
+    [self.repositionAllowedSwitch setOn:[SettingsManager instance].repositionAllowed];
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;
 }
 
-#pragma mark - Settings switching logic
+#pragma mark - Settings switching methods
 
 - (IBAction)showPlanes:(UISwitch *)sender {
     [SettingsManager instance].showPlanes = sender.isOn;

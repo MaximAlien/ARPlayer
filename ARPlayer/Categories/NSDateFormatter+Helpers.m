@@ -12,14 +12,32 @@
 
 @implementation NSDateFormatter (Helpers)
 
-+ (NSString *)toString:(CMTime)time {
++ (instancetype)dateFormatter {
+    static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [NSDateFormatter new];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    });
+    
+    return dateFormatter;
+}
+
++ (NSString *)currentTimeStringForTime:(CMTime)time {
     Float64 seconds = CMTimeGetSeconds(time);
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:(NSUInteger)(seconds / 3600) > 0 ? @"HH:mm:ss" : @"mm:ss"];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    NSDateFormatter *dateFormatter = [NSDateFormatter dateFormatter];
+    
+    NSString *dateFormat = @"mm:ss";
+    NSUInteger hours = seconds / 3600;
+    if (hours > 0) {
+        dateFormat = @"HH:mm:ss";
+    }
+    
+    [dateFormatter setDateFormat:dateFormat];
     NSString *currentTime = [dateFormatter stringFromDate:date];
-
+    
     return currentTime;
 }
 

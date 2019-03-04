@@ -11,14 +11,16 @@
 @implementation UIViewController (Helpers)
 
 - (void)showMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ARPlayer"
-                                                                             message:message
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK"
-                                                     style:UIAlertActionStyleDefault
-                                                   handler:nil];
-    [alertController addAction:action];
-    [self presentViewController:alertController animated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ARPlayer"
+                                                                                 message:message
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+        [alertController addAction:action];
+        [self presentViewController:alertController animated:YES completion:nil];
+    });
 }
 
 @end

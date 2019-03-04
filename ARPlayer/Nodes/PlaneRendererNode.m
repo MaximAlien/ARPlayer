@@ -9,7 +9,7 @@
 #import "PlaneRendererNode.h"
 
 // Categories
-#import "SCNMaterial+Colors.h"
+#import "SCNMaterial+Contents.h"
 
 // Utils
 #import "Constants.h"

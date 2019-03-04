@@ -12,6 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*!
+ @class NextTrackNode
+ @abstract Node by pressing on which switch to next track will occur.
+ */
 @interface NextTrackNode : SwitchTrackNode
 
 @end

@@ -15,11 +15,13 @@
 
 // Categories
 #import "SCNNode+Helpers.h"
+#import "SCNMaterial+Contents.h"
 
 @interface TVNode ()
 
 @property (nonatomic, strong) SCNNode *tvNode;
 @property (nonatomic, strong) SCNNode *videoRendererNode;
+@property (nonatomic, strong) CurrentTimeNode *currentTimeNode;
 
 @end
 
@@ -39,7 +41,7 @@
 - (void)createTvNode {
     self.tvNode = [[SCNScene sceneNamed:@"Art.scnassets/tv_scene.scn"].rootNode childNodeWithName:kTVNode
                                                                                       recursively:NO];
-    self.tvNode.geometry.firstMaterial.diffuse.contents = [[UIColor darkGrayColor] colorWithAlphaComponent:1.0f];
+    self.tvNode.geometry.firstMaterial.diffuse.contents = [[UIColor blackColor] colorWithAlphaComponent:1.0f];
     self.tvNode.movabilityHint = SCNMovabilityHintFixed;
     self.tvNode.name = kTVNode;
     
@@ -58,32 +60,30 @@
     self.videoRendererNode.eulerAngles = SCNVector3Make(M_PI_2, 0.0f, 0.0f);
     self.videoRendererNode.name = kVideoRendererNode;
     
-    self.videoRendererNode.geometry.firstMaterial = [self mainMaterial];
+    self.videoRendererNode.geometry.firstMaterial = [SCNMaterial materialWithColor:[UIColor blackColor]];
     
     [self.tvNode addChildNode:self.videoRendererNode];
     
-    _currentTimeNode = [CurrentTimeNode node];
-    _currentTimeNode.position = SCNVector3Make(-0.025f, -0.1f, 0.003f);
-    [self.videoRendererNode addChildNode:_currentTimeNode];
+    self.currentTimeNode = [CurrentTimeNode node];
+    self.currentTimeNode.position = SCNVector3Make(-0.025f, -0.1f, 0.003f);
+    [self.videoRendererNode addChildNode:self.currentTimeNode];
 }
 
-- (void)updateVideoNodeWithPlayer:(nullable AVPlayer *)player {
-    SCNMaterial *mainMaterial = [self mainMaterial];
+- (void)setPlayer:(AVPlayer * )player {
+    SCNMaterial *mainMaterial = [SCNMaterial materialWithColor:[UIColor blackColor]];
     
     [_player pause];
     [_player replaceCurrentItemWithPlayerItem:nil];
-    [_currentTimeNode resetTimeForPlayer:_player];
+    [self.currentTimeNode resetTimeForPlayer:_player];
     
     if (player == nil) {
-        self.videoRendererNode.geometry.firstMaterial = [self mainMaterial];
+        self.videoRendererNode.geometry.firstMaterial = mainMaterial;
         _player = nil;
     } else {
         _player = player;
 
-        SCNMaterial *playerMaterial = [SCNMaterial new];
-        playerMaterial.diffuse.contents = player;
-        self.videoRendererNode.geometry.materials = @[playerMaterial, mainMaterial, mainMaterial, mainMaterial, mainMaterial, mainMaterial];
-        [_currentTimeNode subscribeForPlayerTimeUpdates:_player];
+        self.videoRendererNode.geometry.materials = @[[self materialWithPlayer:_player], mainMaterial, mainMaterial, mainMaterial, mainMaterial, mainMaterial];
+        [self.currentTimeNode subscribeForPlayerTimeUpdates:_player];
         
         [_player play];
     }
@@ -91,11 +91,11 @@
 
 #pragma mark - Helper methods
 
-- (SCNMaterial *)mainMaterial {
-    SCNMaterial *mainMaterial = [SCNMaterial new];
-    mainMaterial.diffuse.contents = [[UIColor blackColor] colorWithAlphaComponent:1.0f];
+- (SCNMaterial *)materialWithPlayer:(AVPlayer *)player {
+    SCNMaterial *material = [SCNMaterial new];
+    material.diffuse.contents = player;
 
-    return mainMaterial;
+    return material;
 }
 
 @end

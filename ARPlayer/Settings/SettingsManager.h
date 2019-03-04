@@ -8,6 +8,11 @@
 
 @import Foundation;
 
+/*!
+ @class SettingsManager
+ @abstract Manager which is responsible for saving app-related settings. There can only be one
+ instance of such manager during lifetime of an app.
+ */
 @interface SettingsManager : NSObject
 
 + (instancetype)instance;

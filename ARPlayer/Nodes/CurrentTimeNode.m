@@ -10,6 +10,7 @@
 
 // Categories
 #import "NSDateFormatter+Helpers.h"
+#import "SCNMaterial+Contents.h"
 
 static NSUInteger const kTimeInterval = 1.0f;
 static NSString * const kTimeFormat = @"00:00";
@@ -26,17 +27,18 @@ static NSString * const kTimeFormat = @"00:00";
     self = [super init];
     
     if (self) {
-        SCNText *geometry = [self createTimeGeometryWithFrame:CGRectMake(0.0f, 0.0f, 1.8f, 1.5f)];
-        geometry.alignmentMode = kCAAlignmentCenter;
-        
-        SCNMaterial *mainMaterial = [SCNMaterial new];
-        mainMaterial.diffuse.contents = [UIColor whiteColor];
-        geometry.firstMaterial = mainMaterial;
-        self.scale = SCNVector3Make(0.02f, 0.02f, 0.02f);
-        [self setGeometry:geometry];
+        [self setupNode];
     }
     
     return self;
+}
+
+- (void)setupNode {
+    SCNText *geometry = [self createTimeGeometryWithFrame:CGRectMake(0.0f, 0.0f, 1.8f, 1.5f)];
+    geometry.alignmentMode = kCAAlignmentCenter;
+    geometry.firstMaterial = [SCNMaterial materialWithColor:[UIColor whiteColor]];
+    self.scale = SCNVector3Make(0.02f, 0.02f, 0.02f);
+    [self setGeometry:geometry];
 }
 
 - (SCNText *)createTimeGeometryWithFrame:(CGRect)frame {
@@ -55,7 +57,7 @@ static NSString * const kTimeFormat = @"00:00";
                                                         usingBlock:^(CMTime time) {
                                                             __strong typeof(weakSelf) strongSelf = weakSelf;
                                                             SCNText *textGeometry = (SCNText *)strongSelf.geometry;
-                                                            textGeometry.string = [NSDateFormatter toString:time];
+                                                            textGeometry.string = [NSDateFormatter currentTimeStringForTime:time];
                                                             strongSelf.geometry = textGeometry;
                                                         }];
 }

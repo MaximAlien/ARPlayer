@@ -17,12 +17,16 @@
     self = [super init];
 
     if (self) {
-        self.position = SCNVector3Make(-0.12f, 0.0f, 0.12f);
-        self.eulerAngles = SCNVector3Make(M_PI_2, M_PI, 0.0f);
-        self.name = kPreviousTrackNode;
+        [self setupNode];
     }
 
     return self;
+}
+
+- (void)setupNode {
+    self.position = SCNVector3Make(-0.12f, 0.0f, 0.12f);
+    self.eulerAngles = SCNVector3Make(M_PI_2, M_PI, 0.0f);
+    self.name = kPreviousTrackNode;
 }
 
 @end

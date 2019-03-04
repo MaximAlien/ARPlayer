@@ -1,5 +1,5 @@
 //
-//  PreviousTrackNode.h
+//  SwitchTrackNode.h
 //  ARPlayer
 //
 //  Created by Maxim Makhun on 03/03/2019.
@@ -8,11 +8,15 @@
 
 @import SceneKit;
 
-#import "SwitchTrackNode.h"
+#import "ControlNode.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PreviousTrackNode : SwitchTrackNode
+/*!
+ @class SwitchTrackNode
+ @abstract Node which is used as a base class for switch track nodes.
+ */
+@interface SwitchTrackNode : ControlNode
 
 @end
 

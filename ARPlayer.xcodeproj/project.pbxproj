@@ -17,16 +17,25 @@
 		6D1BB4201F77D2C500E5175E /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1BB41E1F77D2C500E5175E /* SettingsViewController.xib */; };
 		6D1BB4241F77D3B100E5175E /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1BB4221F77D3B100E5175E /* PlayerViewController.m */; };
 		6D1BB4251F77D3B100E5175E /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1BB4231F77D3B100E5175E /* PlayerViewController.xib */; };
-		6D1CAD511F7713E800D250CB /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1CAD501F7713E800D250CB /* Utils.m */; };
 		6D22FD051F768EAE006CDBD5 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D22FD041F768EAE006CDBD5 /* SettingsManager.m */; };
 		6D2A5E321F73233F0095F03A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2A5E311F73233F0095F03A /* AppDelegate.m */; };
 		6D2A5E3A1F73233F0095F03A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D2A5E391F73233F0095F03A /* Assets.xcassets */; };
 		6D2A5E3D1F73233F0095F03A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D2A5E3B1F73233F0095F03A /* LaunchScreen.storyboard */; };
 		6D2A5E401F73233F0095F03A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2A5E3F1F73233F0095F03A /* main.m */; };
 		6D2A5E481F7323930095F03A /* MediaPlayerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2A5E471F7323920095F03A /* MediaPlayerNode.m */; };
-		6D8E92841F81014900046E25 /* GestureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8E92831F81014900046E25 /* GestureHandler.m */; };
 		6DA2E01E1F7E655100B82663 /* Art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DA2E01D1F7E655100B82663 /* Art.scnassets */; };
 		6DCC3AB81F85785300E4C94B /* NextTrackNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC3AB71F85785300E4C94B /* NextTrackNode.m */; };
+		93DA5A36222D3BA800CA1B8B /* PlaylistService.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A35222D3BA800CA1B8B /* PlaylistService.m */; };
+		93DA5A3A222D3F1600CA1B8B /* ControlNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A39222D3F1600CA1B8B /* ControlNode.m */; };
+		93DA5A3D222D458100CA1B8B /* PlaneRendererDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A3C222D458100CA1B8B /* PlaneRendererDelegate.m */; };
+		93DA5A40222D48F900CA1B8B /* SceneGestureRecognizerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A3F222D48F900CA1B8B /* SceneGestureRecognizerDelegate.m */; };
+		93DA5A5C222D73B300CA1B8B /* NodePlaybackHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A5B222D73B300CA1B8B /* NodePlaybackHandler.m */; };
+		93DA5A5F222D76F800CA1B8B /* NodeInsertionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A5E222D76F800CA1B8B /* NodeInsertionHandler.m */; };
+		93DA5A62222D77D200CA1B8B /* NodePositionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A61222D77D200CA1B8B /* NodePositionHandler.m */; };
+		93DA5A65222D788800CA1B8B /* NodeRotationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A64222D788800CA1B8B /* NodeRotationHandler.m */; };
+		93DA5A68222D797A00CA1B8B /* NodeScaleHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A67222D797A00CA1B8B /* NodeScaleHandler.m */; };
+		93DA5A6E222D99C900CA1B8B /* UIImpactFeedbackGenerator+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A6D222D99C900CA1B8B /* UIImpactFeedbackGenerator+Helpers.m */; };
+		93DA5A72222DC3F600CA1B8B /* NSDateFormatter+HelpersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A71222DC3F600CA1B8B /* NSDateFormatter+HelpersTests.m */; };
 		93E260E2222C35FB00C4C81D /* UIViewController+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E260E1222C35FB00C4C81D /* UIViewController+Helpers.m */; };
 		93E260E5222C37F400C4C81D /* SCNNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E260E4222C37F400C4C81D /* SCNNode+Helpers.m */; };
 		93E26102222C3C2800C4C81D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E26101222C3C2800C4C81D /* AppDelegate.m */; };
@@ -46,10 +55,10 @@
 		93E2613C222C5B2400C4C81D /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E2612C222C42CD00C4C81D /* Constants.m */; };
 		93ED08E0222C71910061433C /* SwitchTrackNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08DF222C71910061433C /* SwitchTrackNode.m */; };
 		93ED08E3222C72630061433C /* PreviousTrackNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08E2222C72630061433C /* PreviousTrackNode.m */; };
-		93ED08EB222C8A3E0061433C /* SCNMaterial+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08EA222C8A3E0061433C /* SCNMaterial+Colors.m */; };
+		93ED08EB222C8A3E0061433C /* SCNMaterial+Contents.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08EA222C8A3E0061433C /* SCNMaterial+Contents.m */; };
 		93ED08ED222C8C830061433C /* SCNMaterial+ColorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08EC222C8C830061433C /* SCNMaterial+ColorsTests.m */; };
-		93ED08EE222C8CAA0061433C /* SCNMaterial+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08EA222C8A3E0061433C /* SCNMaterial+Colors.m */; };
-		93ED08EF222C8CAB0061433C /* SCNMaterial+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08EA222C8A3E0061433C /* SCNMaterial+Colors.m */; };
+		93ED08EE222C8CAA0061433C /* SCNMaterial+Contents.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08EA222C8A3E0061433C /* SCNMaterial+Contents.m */; };
+		93ED08EF222C8CAB0061433C /* SCNMaterial+Contents.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08EA222C8A3E0061433C /* SCNMaterial+Contents.m */; };
 		93ED08F2222C909A0061433C /* NSDateFormatter+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08F1222C909A0061433C /* NSDateFormatter+Helpers.m */; };
 		93ED08F3222C90E10061433C /* NSDateFormatter+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08F1222C909A0061433C /* NSDateFormatter+Helpers.m */; };
 		93ED08F4222C90E20061433C /* NSDateFormatter+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED08F1222C909A0061433C /* NSDateFormatter+Helpers.m */; };
@@ -83,8 +92,6 @@
 		6D1BB4211F77D3B100E5175E /* PlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		6D1BB4221F77D3B100E5175E /* PlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		6D1BB4231F77D3B100E5175E /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
-		6D1CAD4F1F7713E800D250CB /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		6D1CAD501F7713E800D250CB /* Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		6D22FD031F768EAE006CDBD5 /* SettingsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsManager.h; sourceTree = "<group>"; };
 		6D22FD041F768EAE006CDBD5 /* SettingsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsManager.m; sourceTree = "<group>"; };
 		6D2A5E2D1F73233F0095F03A /* ARPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,11 +103,32 @@
 		6D2A5E3F1F73233F0095F03A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6D2A5E461F7323920095F03A /* MediaPlayerNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaPlayerNode.h; sourceTree = "<group>"; };
 		6D2A5E471F7323920095F03A /* MediaPlayerNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaPlayerNode.m; sourceTree = "<group>"; };
-		6D8E92821F81014900046E25 /* GestureHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureHandler.h; sourceTree = "<group>"; };
-		6D8E92831F81014900046E25 /* GestureHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GestureHandler.m; sourceTree = "<group>"; };
 		6DA2E01D1F7E655100B82663 /* Art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Art.scnassets; sourceTree = "<group>"; };
 		6DCC3AB61F85785300E4C94B /* NextTrackNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextTrackNode.h; sourceTree = "<group>"; };
 		6DCC3AB71F85785300E4C94B /* NextTrackNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextTrackNode.m; sourceTree = "<group>"; };
+		93DA5A34222D3BA800CA1B8B /* PlaylistService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaylistService.h; sourceTree = "<group>"; };
+		93DA5A35222D3BA800CA1B8B /* PlaylistService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaylistService.m; sourceTree = "<group>"; };
+		93DA5A37222D3EB100CA1B8B /* AnimatableProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnimatableProtocol.h; sourceTree = "<group>"; };
+		93DA5A38222D3F1600CA1B8B /* ControlNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControlNode.h; sourceTree = "<group>"; };
+		93DA5A39222D3F1600CA1B8B /* ControlNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ControlNode.m; sourceTree = "<group>"; };
+		93DA5A3B222D458100CA1B8B /* PlaneRendererDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaneRendererDelegate.h; sourceTree = "<group>"; };
+		93DA5A3C222D458100CA1B8B /* PlaneRendererDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaneRendererDelegate.m; sourceTree = "<group>"; };
+		93DA5A3E222D48F900CA1B8B /* SceneGestureRecognizerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneGestureRecognizerDelegate.h; sourceTree = "<group>"; };
+		93DA5A3F222D48F900CA1B8B /* SceneGestureRecognizerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneGestureRecognizerDelegate.m; sourceTree = "<group>"; };
+		93DA5A56222D670300CA1B8B /* GestureHandleProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureHandleProtocol.h; sourceTree = "<group>"; };
+		93DA5A5A222D73B300CA1B8B /* NodePlaybackHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodePlaybackHandler.h; sourceTree = "<group>"; };
+		93DA5A5B222D73B300CA1B8B /* NodePlaybackHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NodePlaybackHandler.m; sourceTree = "<group>"; };
+		93DA5A5D222D76F800CA1B8B /* NodeInsertionHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodeInsertionHandler.h; sourceTree = "<group>"; };
+		93DA5A5E222D76F800CA1B8B /* NodeInsertionHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NodeInsertionHandler.m; sourceTree = "<group>"; };
+		93DA5A60222D77D200CA1B8B /* NodePositionHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodePositionHandler.h; sourceTree = "<group>"; };
+		93DA5A61222D77D200CA1B8B /* NodePositionHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NodePositionHandler.m; sourceTree = "<group>"; };
+		93DA5A63222D788800CA1B8B /* NodeRotationHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodeRotationHandler.h; sourceTree = "<group>"; };
+		93DA5A64222D788800CA1B8B /* NodeRotationHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NodeRotationHandler.m; sourceTree = "<group>"; };
+		93DA5A66222D797A00CA1B8B /* NodeScaleHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodeScaleHandler.h; sourceTree = "<group>"; };
+		93DA5A67222D797A00CA1B8B /* NodeScaleHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NodeScaleHandler.m; sourceTree = "<group>"; };
+		93DA5A6C222D99C900CA1B8B /* UIImpactFeedbackGenerator+Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImpactFeedbackGenerator+Helpers.h"; sourceTree = "<group>"; };
+		93DA5A6D222D99C900CA1B8B /* UIImpactFeedbackGenerator+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImpactFeedbackGenerator+Helpers.m"; sourceTree = "<group>"; };
+		93DA5A71222DC3F600CA1B8B /* NSDateFormatter+HelpersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+HelpersTests.m"; sourceTree = "<group>"; };
 		93E260E0222C35FB00C4C81D /* UIViewController+Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Helpers.h"; sourceTree = "<group>"; };
 		93E260E1222C35FB00C4C81D /* UIViewController+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Helpers.m"; sourceTree = "<group>"; };
 		93E260E3222C37F400C4C81D /* SCNNode+Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCNNode+Helpers.h"; sourceTree = "<group>"; };
@@ -125,9 +153,8 @@
 		93ED08DF222C71910061433C /* SwitchTrackNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwitchTrackNode.m; sourceTree = "<group>"; };
 		93ED08E1222C72630061433C /* PreviousTrackNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreviousTrackNode.h; sourceTree = "<group>"; };
 		93ED08E2222C72630061433C /* PreviousTrackNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreviousTrackNode.m; sourceTree = "<group>"; };
-		93ED08E4222C74DD0061433C /* PlayerNodeProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerNodeProtocol.h; sourceTree = "<group>"; };
-		93ED08E9222C8A3E0061433C /* SCNMaterial+Colors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCNMaterial+Colors.h"; sourceTree = "<group>"; };
-		93ED08EA222C8A3E0061433C /* SCNMaterial+Colors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SCNMaterial+Colors.m"; sourceTree = "<group>"; };
+		93ED08E9222C8A3E0061433C /* SCNMaterial+Contents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCNMaterial+Contents.h"; sourceTree = "<group>"; };
+		93ED08EA222C8A3E0061433C /* SCNMaterial+Contents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SCNMaterial+Contents.m"; sourceTree = "<group>"; };
 		93ED08EC222C8C830061433C /* SCNMaterial+ColorsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SCNMaterial+ColorsTests.m"; sourceTree = "<group>"; };
 		93ED08F0222C909A0061433C /* NSDateFormatter+Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+Helpers.h"; sourceTree = "<group>"; };
 		93ED08F1222C909A0061433C /* NSDateFormatter+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+Helpers.m"; sourceTree = "<group>"; };
@@ -172,6 +199,7 @@
 		6D1BB4151F77BDE100E5175E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				93DA5A41222D490300CA1B8B /* Delegates */,
 				6D1BB4211F77D3B100E5175E /* PlayerViewController.h */,
 				6D1BB4221F77D3B100E5175E /* PlayerViewController.m */,
 				6D1BB4231F77D3B100E5175E /* PlayerViewController.xib */,
@@ -186,17 +214,13 @@
 			isa = PBXGroup;
 			children = (
 				93ED08E7222C79AC0061433C /* Protocols */,
-				93ED08E8222C86240061433C /* SwitchTrackNodes */,
+				93DA5A6F222D9F9B00CA1B8B /* ControlNodes */,
 				6D2A5E461F7323920095F03A /* MediaPlayerNode.h */,
 				6D2A5E471F7323920095F03A /* MediaPlayerNode.m */,
 				6D06790D1F804CDB0081574B /* TVNode.h */,
 				6D06790E1F804CDB0081574B /* TVNode.m */,
 				6D15BA2E1F744F4C002FABB0 /* PlaneRendererNode.h */,
 				6D15BA2F1F744F4C002FABB0 /* PlaneRendererNode.m */,
-				6D0679041F803D8F0081574B /* PlayNode.h */,
-				6D0679051F803D8F0081574B /* PlayNode.m */,
-				6D0679071F803DA20081574B /* StopNode.h */,
-				6D0679081F803DA20081574B /* StopNode.m */,
 				6D06790A1F803DB00081574B /* CurrentTimeNode.h */,
 				6D06790B1F803DB00081574B /* CurrentTimeNode.m */,
 			);
@@ -226,6 +250,7 @@
 		6D2A5E2F1F73233F0095F03A /* ARPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				93DA5A33222D3B9100CA1B8B /* Services */,
 				6D1BB4151F77BDE100E5175E /* ViewControllers */,
 				6D1CAD521F77162C00D250CB /* Nodes */,
 				93E260DF222C324E00C4C81D /* Categories */,
@@ -241,6 +266,46 @@
 			path = ARPlayer;
 			sourceTree = "<group>";
 		};
+		93DA5A33222D3B9100CA1B8B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				93DA5A34222D3BA800CA1B8B /* PlaylistService.h */,
+				93DA5A35222D3BA800CA1B8B /* PlaylistService.m */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		93DA5A41222D490300CA1B8B /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				93DA5A3B222D458100CA1B8B /* PlaneRendererDelegate.h */,
+				93DA5A3C222D458100CA1B8B /* PlaneRendererDelegate.m */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		93DA5A6F222D9F9B00CA1B8B /* ControlNodes */ = {
+			isa = PBXGroup;
+			children = (
+				93ED08E8222C86240061433C /* SwitchTrackNodes */,
+				93DA5A38222D3F1600CA1B8B /* ControlNode.h */,
+				93DA5A39222D3F1600CA1B8B /* ControlNode.m */,
+				6D0679041F803D8F0081574B /* PlayNode.h */,
+				6D0679051F803D8F0081574B /* PlayNode.m */,
+				6D0679071F803DA20081574B /* StopNode.h */,
+				6D0679081F803DA20081574B /* StopNode.m */,
+			);
+			path = ControlNodes;
+			sourceTree = "<group>";
+		};
+		93DA5A70222DBA4200CA1B8B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				93DA5A56222D670300CA1B8B /* GestureHandleProtocol.h */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		93E260DF222C324E00C4C81D /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,10 +313,12 @@
 				93E260E1222C35FB00C4C81D /* UIViewController+Helpers.m */,
 				93E260E3222C37F400C4C81D /* SCNNode+Helpers.h */,
 				93E260E4222C37F400C4C81D /* SCNNode+Helpers.m */,
-				93ED08E9222C8A3E0061433C /* SCNMaterial+Colors.h */,
-				93ED08EA222C8A3E0061433C /* SCNMaterial+Colors.m */,
+				93ED08E9222C8A3E0061433C /* SCNMaterial+Contents.h */,
+				93ED08EA222C8A3E0061433C /* SCNMaterial+Contents.m */,
 				93ED08F0222C909A0061433C /* NSDateFormatter+Helpers.h */,
 				93ED08F1222C909A0061433C /* NSDateFormatter+Helpers.m */,
+				93DA5A6C222D99C900CA1B8B /* UIImpactFeedbackGenerator+Helpers.h */,
+				93DA5A6D222D99C900CA1B8B /* UIImpactFeedbackGenerator+Helpers.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -278,6 +345,7 @@
 				93E26125222C407500C4C81D /* SCNNode+HelpersTests.m */,
 				93E26131222C4D0500C4C81D /* SettingsTests.m */,
 				93ED08EC222C8C830061433C /* SCNMaterial+ColorsTests.m */,
+				93DA5A71222DC3F600CA1B8B /* NSDateFormatter+HelpersTests.m */,
 				93E2611B222C3C2A00C4C81D /* Info.plist */,
 			);
 			path = ARPlayerTests;
@@ -286,8 +354,6 @@
 		93E26127222C40A300C4C81D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6D1CAD4F1F7713E800D250CB /* Utils.h */,
-				6D1CAD501F7713E800D250CB /* Utils.m */,
 				93E2612B222C42CD00C4C81D /* Constants.h */,
 				93E2612C222C42CD00C4C81D /* Constants.m */,
 			);
@@ -306,8 +372,19 @@
 		93E26134222C4EDD00C4C81D /* Gestures */ = {
 			isa = PBXGroup;
 			children = (
-				6D8E92821F81014900046E25 /* GestureHandler.h */,
-				6D8E92831F81014900046E25 /* GestureHandler.m */,
+				93DA5A70222DBA4200CA1B8B /* Protocols */,
+				93DA5A3E222D48F900CA1B8B /* SceneGestureRecognizerDelegate.h */,
+				93DA5A3F222D48F900CA1B8B /* SceneGestureRecognizerDelegate.m */,
+				93DA5A5A222D73B300CA1B8B /* NodePlaybackHandler.h */,
+				93DA5A5B222D73B300CA1B8B /* NodePlaybackHandler.m */,
+				93DA5A5D222D76F800CA1B8B /* NodeInsertionHandler.h */,
+				93DA5A5E222D76F800CA1B8B /* NodeInsertionHandler.m */,
+				93DA5A60222D77D200CA1B8B /* NodePositionHandler.h */,
+				93DA5A61222D77D200CA1B8B /* NodePositionHandler.m */,
+				93DA5A63222D788800CA1B8B /* NodeRotationHandler.h */,
+				93DA5A64222D788800CA1B8B /* NodeRotationHandler.m */,
+				93DA5A66222D797A00CA1B8B /* NodeScaleHandler.h */,
+				93DA5A67222D797A00CA1B8B /* NodeScaleHandler.m */,
 			);
 			path = Gestures;
 			sourceTree = "<group>";
@@ -315,7 +392,7 @@
 		93ED08E7222C79AC0061433C /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				93ED08E4222C74DD0061433C /* PlayerNodeProtocol.h */,
+				93DA5A37222D3EB100CA1B8B /* AnimatableProtocol.h */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -470,27 +547,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA5A5F222D76F800CA1B8B /* NodeInsertionHandler.m in Sources */,
 				6D2A5E401F73233F0095F03A /* main.m in Sources */,
 				93ED08E0222C71910061433C /* SwitchTrackNode.m in Sources */,
 				6D0679061F803D8F0081574B /* PlayNode.m in Sources */,
+				93DA5A3D222D458100CA1B8B /* PlaneRendererDelegate.m in Sources */,
 				6D2A5E481F7323930095F03A /* MediaPlayerNode.m in Sources */,
 				93E260E2222C35FB00C4C81D /* UIViewController+Helpers.m in Sources */,
 				93E260E5222C37F400C4C81D /* SCNNode+Helpers.m in Sources */,
 				6D1BB41F1F77D2C500E5175E /* SettingsViewController.m in Sources */,
+				93DA5A5C222D73B300CA1B8B /* NodePlaybackHandler.m in Sources */,
+				93DA5A36222D3BA800CA1B8B /* PlaylistService.m in Sources */,
 				6D1BB4241F77D3B100E5175E /* PlayerViewController.m in Sources */,
 				6D15BA301F744F4C002FABB0 /* PlaneRendererNode.m in Sources */,
 				93E2612D222C42CD00C4C81D /* Constants.m in Sources */,
 				93ED08F2222C909A0061433C /* NSDateFormatter+Helpers.m in Sources */,
-				6D8E92841F81014900046E25 /* GestureHandler.m in Sources */,
 				93ED08E3222C72630061433C /* PreviousTrackNode.m in Sources */,
 				6D22FD051F768EAE006CDBD5 /* SettingsManager.m in Sources */,
+				93DA5A40222D48F900CA1B8B /* SceneGestureRecognizerDelegate.m in Sources */,
 				6D06790F1F804CDB0081574B /* TVNode.m in Sources */,
+				93DA5A65222D788800CA1B8B /* NodeRotationHandler.m in Sources */,
 				6D0679091F803DA20081574B /* StopNode.m in Sources */,
-				93ED08EB222C8A3E0061433C /* SCNMaterial+Colors.m in Sources */,
+				93ED08EB222C8A3E0061433C /* SCNMaterial+Contents.m in Sources */,
 				6DCC3AB81F85785300E4C94B /* NextTrackNode.m in Sources */,
-				6D1CAD511F7713E800D250CB /* Utils.m in Sources */,
+				93DA5A68222D797A00CA1B8B /* NodeScaleHandler.m in Sources */,
 				6D2A5E321F73233F0095F03A /* AppDelegate.m in Sources */,
 				6D06790C1F803DB00081574B /* CurrentTimeNode.m in Sources */,
+				93DA5A3A222D3F1600CA1B8B /* ControlNode.m in Sources */,
+				93DA5A6E222D99C900CA1B8B /* UIImpactFeedbackGenerator+Helpers.m in Sources */,
+				93DA5A62222D77D200CA1B8B /* NodePositionHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,7 +583,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93ED08EF222C8CAB0061433C /* SCNMaterial+Colors.m in Sources */,
+				93ED08EF222C8CAB0061433C /* SCNMaterial+Contents.m in Sources */,
 				93E2612F222C4A2E00C4C81D /* SCNNode+Helpers.m in Sources */,
 				93E26105222C3C2800C4C81D /* ViewController.m in Sources */,
 				93E26110222C3C2A00C4C81D /* main.m in Sources */,
@@ -513,9 +598,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93ED08EE222C8CAA0061433C /* SCNMaterial+Colors.m in Sources */,
+				93ED08EE222C8CAA0061433C /* SCNMaterial+Contents.m in Sources */,
 				93E2613C222C5B2400C4C81D /* Constants.m in Sources */,
 				93ED08ED222C8C830061433C /* SCNMaterial+ColorsTests.m in Sources */,
+				93DA5A72222DC3F600CA1B8B /* NSDateFormatter+HelpersTests.m in Sources */,
 				93E26130222C4A3600C4C81D /* SCNNode+Helpers.m in Sources */,
 				93E26139222C5B1700C4C81D /* SettingsManager.m in Sources */,
 				93ED08F3222C90E10061433C /* NSDateFormatter+Helpers.m in Sources */,

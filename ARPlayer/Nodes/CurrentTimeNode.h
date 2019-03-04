@@ -11,10 +11,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*!
+ @class CurrentTimeNode
+ @abstract Node which is placed on top of vide surface to show current playback time.
+ */
 @interface CurrentTimeNode : SCNNode
 
+/*!
+ @method subscribeForPlayerTimeUpdates:
+ @abstract Subscribe to time playback updates of AVPlayer instance.
+ */
 - (void)subscribeForPlayerTimeUpdates:(AVPlayer *)player;
 
+/*!
+ @method resetTimeForPlayer:
+ @abstract Reset current time information in CurrentTimeNode.
+ */
 - (void)resetTimeForPlayer:(AVPlayer *)player;
 
 @end

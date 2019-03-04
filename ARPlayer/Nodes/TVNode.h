@@ -13,13 +13,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*!
+ @class TVNode
+ @abstract TVNode - node which contains media playback surface and TV node.
+ */
 @interface TVNode : SCNNode
 
-@property(nonatomic, strong, readonly) AVPlayer *player;
-
-@property(nonatomic, strong, readonly) CurrentTimeNode *currentTimeNode;
-
-- (void)updateVideoNodeWithPlayer:(nullable AVPlayer *)player;
+/*!
+ @property player
+ @abstract AVPlayer instance, using which it's possible to control playback.
+ */
+@property (nonatomic, strong, nullable) AVPlayer *player;
 
 @end
 

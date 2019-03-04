@@ -8,7 +8,7 @@
 
 @import XCTest;
 
-#import "SCNMaterial+Colors.h"
+#import "SCNMaterial+Contents.h"
 
 @interface SCNMaterial_ColorsTests : XCTestCase
 
