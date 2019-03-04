@@ -8,8 +8,6 @@
 
 @import Foundation;
 
-extern NSString * const kNotificationShowPlanes;
-
 @interface SettingsManager : NSObject
 
 + (instancetype)instance;

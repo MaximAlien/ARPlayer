@@ -8,6 +8,12 @@
 
 #import "CurrentTimeNode.h"
 
+// Categories
+#import "NSDateFormatter+Helpers.h"
+
+static NSUInteger const kTimeInterval = 1.0f;
+static NSString * const kTimeFormat = @"00:00";
+
 @interface CurrentTimeNode()
 
 @property (nonatomic, strong) id timeObserver;
@@ -34,28 +40,23 @@
 }
 
 - (SCNText *)createTimeGeometryWithFrame:(CGRect)frame {
-    SCNText *timeGeometry = [SCNText textWithString:@"00:00" extrusionDepth:0.1f];
-    timeGeometry.font = [UIFont systemFontOfSize:0.9f];
-    timeGeometry.containerFrame = frame;
-    timeGeometry.flatness = 0.005f;
+    SCNText *geometry = [SCNText textWithString:kTimeFormat extrusionDepth:0.1f];
+    geometry.font = [UIFont systemFontOfSize:0.9f];
+    geometry.containerFrame = frame;
+    geometry.flatness = 0.005f;
     
-    return timeGeometry;
+    return geometry;
 }
 
 - (void)subscribeForPlayerTimeUpdates:(AVPlayer *)player {
     __weak typeof(self) weakSelf = self;
-    self.timeObserver = [player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC)
+    self.timeObserver = [player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(kTimeInterval, NSEC_PER_SEC)
                                                              queue:nil
                                                         usingBlock:^(CMTime time) {
-                                                            Float64 seconds = CMTimeGetSeconds(time);
-                                                            NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
-                                                            NSDateFormatter *dateFormatter = [NSDateFormatter new];
-                                                            [dateFormatter setDateFormat:(int)(seconds / 3600) > 0 ? @"HH:mm:ss" : @"mm:ss"];
-                                                            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-                                                            
-                                                            SCNText *textGeometry = (SCNText *)weakSelf.geometry;
-                                                            textGeometry.string = [dateFormatter stringFromDate:date];
-                                                            weakSelf.geometry = textGeometry;
+                                                            __strong typeof(weakSelf) strongSelf = weakSelf;
+                                                            SCNText *textGeometry = (SCNText *)strongSelf.geometry;
+                                                            textGeometry.string = [NSDateFormatter toString:time];
+                                                            strongSelf.geometry = textGeometry;
                                                         }];
 }
 
@@ -63,7 +64,7 @@
     [player removeTimeObserver:self.timeObserver];
     
     SCNText *textGeometry = (SCNText *)self.geometry;
-    textGeometry.string = @"00:00";
+    textGeometry.string = kTimeFormat;
     self.geometry = textGeometry;
 }
 

@@ -9,7 +9,7 @@
 #import "StopNode.h"
 
 // Utils
-#import "Utils.h"
+#import "Constants.h"
 
 @implementation StopNode
 
@@ -17,15 +17,15 @@
     self = [super init];
     
     if (self) {
+        SCNBox *geometry = [SCNBox boxWithWidth:0.04f
+                                         height:0.02f
+                                         length:0.04f
+                                  chamferRadius:0.0f];
+        self.geometry = geometry;
+        self.position = SCNVector3Make(0.05f, 0.0f, 0.1f);
+
         SCNMaterial *mainMaterial = [SCNMaterial new];
         mainMaterial.diffuse.contents = [UIColor blackColor];
-        
-        SCNBox *stopNodeGeometry = [SCNBox boxWithWidth:0.04f
-                                                 height:0.02f
-                                                 length:0.04f
-                                          chamferRadius:0.0f];
-        self.geometry = stopNodeGeometry;
-        self.position = SCNVector3Make(0.05f, 0.0f, 0.1f);
         self.geometry.firstMaterial = mainMaterial;
         self.name = kStopNode;
     }

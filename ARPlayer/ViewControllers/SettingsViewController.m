@@ -45,6 +45,8 @@
     return UIModalPresentationNone;
 }
 
+#pragma mark - Settings switching logic
+
 - (IBAction)showPlanes:(UISwitch *)sender {
     [SettingsManager instance].showPlanes = sender.isOn;
 }

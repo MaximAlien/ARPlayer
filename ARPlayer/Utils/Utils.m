@@ -13,14 +13,6 @@
 #import "Utils.h"
 #import "SettingsManager.h"
 
-NSString * const kMediaPlayerNode = @"media_player_node";
-NSString * const kTVNode = @"tv_node";
-NSString * const kVideoRendererNode = @"video_renderer_node";
-NSString * const kPlayNode = @"play_node";
-NSString * const kStopNode = @"stop_node";
-NSString * const kNextTrackNode = @"next_track_node";
-NSString * const kPreviousTrackNode = @"previous_track_node";
-
 @implementation Utils
 
 + (void)handleTouch:(SCNNode *)node {
@@ -43,18 +35,6 @@ NSString * const kPreviousTrackNode = @"previous_track_node";
                                                   count:1];
         [node runAction:moveAction];
     }
-}
-
-+ (SCNVector3)getBoundingBox:(SCNNode *)node {
-    SCNVector3 min = SCNVector3Zero;
-    SCNVector3 max = SCNVector3Zero;
-    [node getBoundingBoxMin:&min max:&max];
-    
-    CGFloat width = max.x - min.x;
-    CGFloat height = max.y - min.y;
-    CGFloat length = max.z - min.z;
-    
-    return SCNVector3Make(width, height, length);
 }
 
 + (NSArray<NSURL *> *)playlist {

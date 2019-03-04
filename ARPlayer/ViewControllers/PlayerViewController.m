@@ -20,6 +20,8 @@
 #import "SettingsManager.h"
 #import "Utils.h"
 #import "GestureHandler.h"
+#import "Constants.h"
+#import "UIViewController+Helpers.h"
 
 @interface PlayerViewController () <ARSCNViewDelegate, UIGestureRecognizerDelegate>
 
@@ -43,10 +45,22 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    ARWorldTrackingConfiguration *configuration = [ARWorldTrackingConfiguration new];
-    configuration.planeDetection = ARPlaneDetectionHorizontal;
-    self.sceneView.automaticallyUpdatesLighting = YES;
-    [self.sceneView.session runWithConfiguration:configuration];
+    if (ARConfiguration.isSupported) {
+        ARWorldTrackingConfiguration *configuration = [ARWorldTrackingConfiguration new];
+        configuration.planeDetection = ARPlaneDetectionHorizontal;
+        self.sceneView.automaticallyUpdatesLighting = YES;
+        [self.sceneView.session runWithConfiguration:configuration];
+    } else {
+        NSLog(@"[%s] ARConfiguration is not supported.", __FUNCTION__);
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (!ARConfiguration.isSupported) {
+        [self showMessage:@"ARConfiguration is not supported"];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -120,7 +134,6 @@
     settingsViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width - 100,
                                                              self.view.frame.size.height - 200);
     settingsViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    
     [self presentViewController:settingsViewController animated:YES completion:nil];
 }
 
@@ -163,7 +176,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     }
 }
 
-#pragma mark - ARSCNViewDelegate
+#pragma mark - ARSCNViewDelegate methods
 
 - (void)renderer:(id <SCNSceneRenderer>)renderer
       didAddNode:(SCNNode *)node
@@ -195,20 +208,12 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     [self.planes removeObjectForKey:anchor.identifier];
 }
 
-#pragma mark - ARSessionObserver
+#pragma mark - ARSessionObserver methods
 
 - (void)session:(ARSession *)session didFailWithError:(NSError *)error {
     if (error) {
         NSLog(@"[%s] Error occured: %@", __FUNCTION__, error.localizedDescription);
-        
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                                 message:error.localizedDescription
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:nil];
-        [alertController addAction:action];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [self showMessage:error.localizedDescription];
     }
 }
 

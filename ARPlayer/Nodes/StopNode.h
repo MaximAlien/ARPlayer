@@ -8,6 +8,10 @@
 
 @import SceneKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface StopNode : SCNNode
 
 @end
+
+NS_ASSUME_NONNULL_END

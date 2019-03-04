@@ -12,25 +12,31 @@
 #import "StopNode.h"
 #import "TVNode.h"
 #import "NextTrackNode.h"
+#import "PreviousTrackNode.h"
 
 // Utils
-#import "Utils.h"
+#import "Constants.h"
 
 @interface MediaPlayerNode ()
 
 @property (nonatomic, strong) TVNode *tvNode;
 @property (nonatomic, strong) PlayNode *playNode;
+@property (nonatomic, strong) StopNode *stopNode;
+@property (nonatomic, strong) NextTrackNode *nextTrackNode;
+@property (nonatomic, strong) PreviousTrackNode *previousTrackNode;
 @property (nonatomic) NSInteger currentPlaybackIndex;
 
 @end
 
 @implementation MediaPlayerNode
 
+#pragma mark - Init methods
+
 - (instancetype)initWithPlaylist:(NSArray<NSURL *> *)playlist {
     self = [self init];
     
     if (self) {
-        self.playlistArray = playlist;
+        self.playlist = playlist;
     }
     
     return self;
@@ -57,20 +63,18 @@
     
     self.playNode = [PlayNode node];
     [self addChildNode:self.playNode];
-    [self addChildNode:[StopNode node]];
+
+    self.stopNode = [StopNode node];
+    [self addChildNode:self.stopNode];
     
-    NextTrackNode *nextTrackNode = [NextTrackNode new];
-    nextTrackNode.position = SCNVector3Make(0.12f, 0.0f, 0.08f);
-    nextTrackNode.eulerAngles = SCNVector3Make(M_PI_2, 0.0f, 0.0f);
-    nextTrackNode.name = kNextTrackNode;
-    [self addChildNode:nextTrackNode];
+    self.nextTrackNode = [NextTrackNode new];
+    [self addChildNode:self.nextTrackNode];
     
-    NextTrackNode *previousTrackNode = [NextTrackNode new];
-    previousTrackNode.position = SCNVector3Make(-0.12f, 0.0f, 0.12f);
-    previousTrackNode.eulerAngles = SCNVector3Make(M_PI_2, M_PI, 0.0f);
-    previousTrackNode.name = kPreviousTrackNode;
-    [self addChildNode:previousTrackNode];
+    self.previousTrackNode = [PreviousTrackNode new];
+    [self addChildNode:self.previousTrackNode];
 }
+
+#pragma mark - Video player control logic
 
 - (void)pause {
     _playerPaused = YES;
@@ -80,7 +84,7 @@
 }
 
 - (void)play {
-    if (self.playlistArray.count != 0) {
+    if (self.playlist.count != 0) {
         _playerPaused = NO;
         
         if (self.tvNode.player == NULL) {
@@ -102,8 +106,10 @@
     [self.tvNode updateVideoNodeWithPlayer:nil];
 }
 
+#pragma mark - Video player track switching logic
+
 - (void)toNextTrack {
-    if (self.currentPlaybackIndex + 1 < self.playlistArray.count) {
+    if (self.currentPlaybackIndex + 1 < self.playlist.count) {
         [self switchToTrackWithIndex:++self.currentPlaybackIndex];
     }
 }
@@ -115,7 +121,7 @@
 }
 
 - (void)switchToTrackWithIndex:(NSUInteger)index {    
-    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.playlistArray[index]];
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.playlist[index]];
     
     if (self.tvNode.player.currentItem != playerItem) {
         [self.tvNode updateVideoNodeWithPlayer:[AVPlayer playerWithPlayerItem:playerItem]];

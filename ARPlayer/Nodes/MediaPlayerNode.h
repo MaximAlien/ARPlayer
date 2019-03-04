@@ -8,11 +8,13 @@
 
 @import SceneKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MediaPlayerNode : SCNNode
 
 - (instancetype)initWithPlaylist:(NSArray<NSURL *> *)playlist;
 
-@property(nonatomic, strong) NSArray<NSURL *> *playlistArray;
+@property(nonatomic, strong) NSArray<NSURL *> *playlist;
 
 @property(nonatomic, readonly) BOOL playerPaused;
 
@@ -27,3 +29,5 @@
 - (void)toPreviousTrack;
 
 @end
+
+NS_ASSUME_NONNULL_END

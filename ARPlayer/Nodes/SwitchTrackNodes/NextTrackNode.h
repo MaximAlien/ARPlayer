@@ -8,6 +8,12 @@
 
 @import SceneKit;
 
-@interface NextTrackNode : SCNNode
+#import "SwitchTrackNode.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface NextTrackNode : SwitchTrackNode
 
 @end
+
+NS_ASSUME_NONNULL_END

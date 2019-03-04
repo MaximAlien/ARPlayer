@@ -11,12 +11,16 @@
 
 #import "CurrentTimeNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TVNode : SCNNode
 
 @property(nonatomic, strong, readonly) AVPlayer *player;
 
 @property(nonatomic, strong, readonly) CurrentTimeNode *currentTimeNode;
 
-- (void)updateVideoNodeWithPlayer:(AVPlayer *)player;
+- (void)updateVideoNodeWithPlayer:(nullable AVPlayer *)player;
 
 @end
+
+NS_ASSUME_NONNULL_END

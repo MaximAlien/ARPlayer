@@ -8,9 +8,14 @@
 
 #import "PlaneRendererNode.h"
 
+// Categories
+#import "SCNMaterial+Colors.h"
+
+// Utils
+#import "Constants.h"
+
 @interface PlaneRendererNode ()
 
-@property (nonatomic,strong) ARPlaneAnchor *anchor;
 @property (nonatomic,strong) SCNBox *planeGeometry;
 
 @end
@@ -21,32 +26,24 @@
     self = [super init];
     
     if (self) {
-        self.name = @"plane_renderer";
+        self.name = kPlaneRendererNode;
         
-        self.anchor = anchor;
         float width = anchor.extent.x;
+        float height = 0.01f;
         float length = anchor.extent.z;
-        
-        float planeHeight = 0.01f;
         self.planeGeometry = [SCNBox boxWithWidth:width
-                                           height:planeHeight
+                                           height:height
                                            length:length
                                     chamferRadius:0];
-        
-        SCNMaterial *material = [SCNMaterial new];
-        material.diffuse.contents = [[UIColor greenColor] colorWithAlphaComponent:0.3f];
-        
-        SCNMaterial *transparentMaterial = [SCNMaterial new];
-        transparentMaterial.diffuse.contents = [UIColor colorWithWhite:1.0f alpha:0.0f];
-        
+
         if (visible) {
-            self.planeGeometry.materials = @[transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial, material, transparentMaterial];
+            self.planeGeometry.materials = [self colorMaterials];
         } else {
-            self.planeGeometry.materials = @[transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial];
+            self.planeGeometry.materials = [self transparentMaterials];
         }
         
         SCNNode *planeNode = [SCNNode nodeWithGeometry:self.planeGeometry];
-        planeNode.position = SCNVector3Make(0, -planeHeight, 0);
+        planeNode.position = SCNVector3Make(0, -height, 0);
         planeNode.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeKinematic
                                                        shape:[SCNPhysicsShape shapeWithGeometry:self.planeGeometry options:nil]];
         
@@ -57,29 +54,44 @@
 }
 
 - (void)update:(ARPlaneAnchor *)anchor {
+    self.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z);
+
     self.planeGeometry.width = anchor.extent.x;
     self.planeGeometry.length = anchor.extent.z;
-    
-    self.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z);
-    
-    SCNNode *node = [self.childNodes firstObject];
-    node.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeKinematic
-                                              shape:[SCNPhysicsShape shapeWithGeometry:self.planeGeometry options:nil]];
 }
 
 - (void)hide {
-    SCNMaterial *transparentMaterial = [SCNMaterial new];
-    transparentMaterial.diffuse.contents = [UIColor colorWithWhite:1.0f alpha:0.0f];
-    self.planeGeometry.materials = @[transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial];
+    self.planeGeometry.materials = [self transparentMaterials];
 }
 
 - (void)show {
-    SCNMaterial *material = [SCNMaterial new];
-    material.diffuse.contents = [[UIColor greenColor] colorWithAlphaComponent:0.3f];
-    
-    SCNMaterial *transparentMaterial = [SCNMaterial new];
-    transparentMaterial.diffuse.contents = [UIColor colorWithWhite:1.0f alpha:0.0f];
-    self.planeGeometry.materials = @[transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial, material, transparentMaterial];
+    self.planeGeometry.materials = [self colorMaterials];
+}
+
+#pragma mark - Helper methods
+
+- (NSArray<SCNMaterial *> *)colorMaterials {
+    const NSUInteger capacity = 6;
+    NSMutableArray<SCNMaterial *> *transparentMaterials = [[NSMutableArray alloc] initWithCapacity:capacity];
+    for (NSUInteger i = 0; i < capacity; ++i) {
+        if (i == 4) {
+            [transparentMaterials addObject:[SCNMaterial materialWithColor:[[UIColor greenColor] colorWithAlphaComponent:0.3f]]];
+        } else {
+            [transparentMaterials addObject:[SCNMaterial materialWithColor:[UIColor colorWithWhite:1.0f alpha:0.0f]]];
+        }
+    }
+
+    return transparentMaterials;
+}
+
+- (NSArray<SCNMaterial *> *)transparentMaterials {
+    const NSUInteger capacity = 6;
+    NSMutableArray<SCNMaterial *> *transparentMaterials = [[NSMutableArray alloc] initWithCapacity:capacity];
+    for (NSUInteger i = 0; i < capacity; ++i) {
+        [transparentMaterials addObject:[SCNMaterial materialWithColor:[UIColor colorWithWhite:1.0f alpha:0.0f]]];
+    }
+
+    return transparentMaterials;
 }
 
 @end

@@ -8,7 +8,8 @@
 
 #import "SettingsManager.h"
 
-NSString * const kNotificationShowPlanes = @"kNotificationShowPlanes";
+// Utils
+#import "Constants.h"
 
 @interface SettingsManager () {
     BOOL _showPlanes;
@@ -26,75 +27,77 @@ NSString * const kNotificationShowPlanes = @"kNotificationShowPlanes";
 + (instancetype)instance {
     static SettingsManager *sharedManager;
     static dispatch_once_t onceToken;
-    
+
     dispatch_once(&onceToken, ^{
         sharedManager = [self new];
     });
-    
+
     return sharedManager;
 }
 
+#pragma mark - Read/write to settings methods
+
 - (BOOL)showPlanes {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"showPlanes"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kShowPlanesSettingsKey];
 }
 
 - (void)setShowPlanes:(BOOL)showPlanes {
     _showPlanes = showPlanes;
     
-    [[NSUserDefaults standardUserDefaults] setBool:_showPlanes forKey:@"showPlanes"];
+    [[NSUserDefaults standardUserDefaults] setBool:_showPlanes forKey:kShowPlanesSettingsKey];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShowPlanes
                                                         object:nil];
 }
 
 - (BOOL)vibrateOnTouch {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"vibrateOnTouch"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kVibrateOnTouchKey];
 }
 
 - (void)setVibrateOnTouch:(BOOL)vibrateOnTouch {
     _vibrateOnTouch = vibrateOnTouch;
     
-    [[NSUserDefaults standardUserDefaults] setBool:_vibrateOnTouch forKey:@"vibrateOnTouch"];
+    [[NSUserDefaults standardUserDefaults] setBool:_vibrateOnTouch forKey:kVibrateOnTouchKey];
 }
 
 - (BOOL)animateOnTouch {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"animateOnTouch"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kAnimateOnTouchKey];
 }
 
 - (void)setAnimateOnTouch:(BOOL)animateOnTouch {
     _animateOnTouch = animateOnTouch;
     
-    [[NSUserDefaults standardUserDefaults] setBool:_animateOnTouch forKey:@"animateOnTouch"];
+    [[NSUserDefaults standardUserDefaults] setBool:_animateOnTouch forKey:kAnimateOnTouchKey];
 }
 
 - (BOOL)scaleAllowed {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"scaleAllowed"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kScaleAllowedKey];
 }
 
 - (void)setScaleAllowed:(BOOL)scaleAllowed {
     _scaleAllowed = scaleAllowed;
     
-    [[NSUserDefaults standardUserDefaults] setBool:_scaleAllowed forKey:@"scaleAllowed"];
+    [[NSUserDefaults standardUserDefaults] setBool:_scaleAllowed forKey:kScaleAllowedKey];
 }
 
 - (BOOL)rotationAllowed {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"rotationAllowed"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kRotationAllowedKey];
 }
 
 - (void)setRotationAllowed:(BOOL)rotationAllowed {
     _rotationAllowed = rotationAllowed;
     
-    [[NSUserDefaults standardUserDefaults] setBool:_rotationAllowed forKey:@"rotationAllowed"];
+    [[NSUserDefaults standardUserDefaults] setBool:_rotationAllowed forKey:kRotationAllowedKey];
 }
 
 - (BOOL)repositionAllowed {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"repositionAllowed"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kRepositionAllowedKey];
 }
 
 - (void)setRepositionAllowed:(BOOL)repositionAllowed {
     _repositionAllowed = repositionAllowed;
     
-    [[NSUserDefaults standardUserDefaults] setBool:_repositionAllowed forKey:@"repositionAllowed"];
+    [[NSUserDefaults standardUserDefaults] setBool:_repositionAllowed forKey:kRepositionAllowedKey];
 }
 
 @end

@@ -9,6 +9,8 @@
 @import SceneKit;
 @import ARKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PlaneRendererNode : SCNNode
 
 - (instancetype)initWithAnchor:(ARPlaneAnchor *)anchor visible:(BOOL)visible;
@@ -20,3 +22,5 @@
 - (void)show;
 
 @end
+
+NS_ASSUME_NONNULL_END

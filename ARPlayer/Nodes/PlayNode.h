@@ -8,6 +8,8 @@
 
 @import SceneKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, PlayerState) {
     StatePlaying,
     StatePaused,
@@ -18,3 +20,5 @@ typedef NS_ENUM(NSUInteger, PlayerState) {
 - (void)updateState:(PlayerState)state;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -15,6 +15,7 @@
 
 // Utils
 #import "Utils.h"
+#import "Constants.h"
 #import "SettingsManager.h"
 
 @implementation GestureHandler
@@ -73,8 +74,8 @@
     }
 }
 
-+ (SCNNode *)getNodeInSceneView:(ARSCNView *)sceneView
-                  forRecognizer:(UIGestureRecognizer *)recognizer {
++ (SCNNode *)findNodeInSceneView:(ARSCNView *)sceneView
+                   forRecognizer:(UIGestureRecognizer *)recognizer {
     SCNHitTestResult *hitResult = [[sceneView hitTest:[recognizer locationInView:sceneView]
                                               options:nil] firstObject];
     if ([hitResult.node.name isEqualToString:kTVNode] ||
@@ -91,8 +92,8 @@
     if ([SettingsManager instance].scaleAllowed) {
         static SCNNode *node;
         if (recognizer.state == UIGestureRecognizerStateBegan) {
-            node = [GestureHandler getNodeInSceneView:sceneView
-                                        forRecognizer:recognizer];
+            node = [GestureHandler findNodeInSceneView:sceneView
+                                         forRecognizer:recognizer];
         } else if (recognizer.state == UIGestureRecognizerStateChanged) {
             CGFloat pinchScaleX = recognizer.scale * node.scale.x;
             CGFloat pinchScaleY = recognizer.scale * node.scale.y;
@@ -110,8 +111,8 @@
         static CGFloat lastRotation = 0.0f;
         CGFloat currentRotation = recognizer.rotation * (- 180 / M_PI);
         if (recognizer.state == UIGestureRecognizerStateBegan) {
-            node = [GestureHandler getNodeInSceneView:sceneView
-                                        forRecognizer:recognizer];
+            node = [GestureHandler findNodeInSceneView:sceneView
+                                         forRecognizer:recognizer];
         } else if (recognizer.state == UIGestureRecognizerStateChanged) {
             [node runAction:[SCNAction rotateByX:0
                                                y:currentRotation - lastRotation
