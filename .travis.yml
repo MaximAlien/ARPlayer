@@ -16,4 +16,4 @@ script:
   CODE_SIGNING_REQUIRED=NO
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -t 91f7bca2-08e2-4138-8184-12bf4cc33e00
