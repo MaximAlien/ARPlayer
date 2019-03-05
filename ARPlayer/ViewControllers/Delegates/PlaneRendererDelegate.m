@@ -51,6 +51,10 @@
     [node addChildNode:plane];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)renderer:(id <SCNSceneRenderer>)renderer
    didUpdateNode:(SCNNode *)node
        forAnchor:(ARAnchor *)anchor {
