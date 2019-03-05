@@ -89,22 +89,22 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     return NO;
 }
 
-- (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer {
+- (void)handleGesture:(UIGestureRecognizer *)gesture {
     id<GestureHandleProtocol> handler = nil;
-    if ([gestureRecognizer isKindOfClass:UITapGestureRecognizer.class]) {
+    if ([gesture isKindOfClass:UITapGestureRecognizer.class]) {
         handler = [NodePlaybackHandler new];
-    } else if (([gestureRecognizer isKindOfClass:UILongPressGestureRecognizer.class])) {
+    } else if (([gesture isKindOfClass:UILongPressGestureRecognizer.class])) {
         handler = [NodeInsertionHandler new];
-    } else if ([gestureRecognizer isKindOfClass:UIPinchGestureRecognizer.class]) {
+    } else if ([gesture isKindOfClass:UIPinchGestureRecognizer.class]) {
         handler = [NodeScaleHandler new];
-    } else if ([gestureRecognizer isKindOfClass:UIRotationGestureRecognizer.class]) {
+    } else if ([gesture isKindOfClass:UIRotationGestureRecognizer.class]) {
         handler = [NodeRotationHandler new];
-    } else if ([gestureRecognizer isKindOfClass:UIPanGestureRecognizer.class]) {
+    } else if ([gesture isKindOfClass:UIPanGestureRecognizer.class]) {
         handler = [NodePositionHandler new];
     }
 
-    NSAssert(handler != nil, @"Handler should not be nil");
-    [handler handleGesture:gestureRecognizer inSceneView:self.sceneView];
+    NSAssert(handler != nil, @"Handler should not be nil.");
+    [handler handleGesture:gesture inSceneView:self.sceneView];
 }
 
 @end
