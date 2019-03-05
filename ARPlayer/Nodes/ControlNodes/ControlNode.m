@@ -8,26 +8,19 @@
 
 #import "ControlNode.h"
 
-// Protocols
-#import "AnimatableProtocol.h"
-
 // Utils
 #import "SettingsManager.h"
 
 // Categories
 #import "UIImpactFeedbackGenerator+Helpers.h"
 
-@interface ControlNode () <AnimatableProtocol>
+@interface ControlNode ()
 
 @end
 
 @implementation ControlNode
 
 - (void)animate {
-    if ([SettingsManager instance].vibrateOnTouch) {
-        [UIImpactFeedbackGenerator heavyImpactOccurred];
-    }
-
     if ([SettingsManager instance].animateOnTouch) {
         SCNAction *moveDown = [SCNAction moveBy:SCNVector3Make(0.0f, -0.03f, 0.0f)
                                        duration:0.2f];
@@ -38,6 +31,12 @@
         SCNAction *moveAction = [SCNAction repeatAction:[SCNAction sequence:@[moveDown, moveUp]]
                                                   count:1];
         [self runAction:moveAction];
+    }
+}
+
+- (void)vibrate {
+    if ([SettingsManager instance].vibrateOnTouch) {
+        [UIImpactFeedbackGenerator heavyImpactOccurred];
     }
 }
 

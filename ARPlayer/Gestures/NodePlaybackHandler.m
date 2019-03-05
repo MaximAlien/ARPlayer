@@ -36,6 +36,7 @@
     if ([hitResult.node isKindOfClass:[ControlNode class]]) {
         ControlNode *node = (ControlNode *)hitResult.node;
         [node animate];
+        [node vibrate];
     }
 
     if ([hitResult.node.name isEqualToString:kVideoRendererNode]) {

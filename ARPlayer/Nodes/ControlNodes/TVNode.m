@@ -9,6 +9,8 @@
 // Nodes
 #import "TVNode.h"
 #import "CurrentTimeNode.h"
+#include "VideoRendererNode.h"
+#import "ControlNode.h"
 
 // Utils
 #import "Constants.h"
@@ -20,7 +22,7 @@
 @interface TVNode ()
 
 @property (nonatomic, strong) SCNNode *tvNode;
-@property (nonatomic, strong) SCNNode *videoRendererNode;
+@property (nonatomic, strong) VideoRendererNode *videoRendererNode;
 @property (nonatomic, strong) CurrentTimeNode *currentTimeNode;
 
 @end
@@ -49,23 +51,10 @@
 }
 
 - (void)createVideoRendererNode {
-    self.videoRendererNode = [SCNNode new];
-    
-    SCNVector3 vector = [self.tvNode boundingBox];
-    self.videoRendererNode.geometry = [SCNBox boxWithWidth:vector.x - 0.04f
-                                                    height:vector.z - 0.06f
-                                                    length:0.005f
-                                             chamferRadius:0.0f];
-    self.videoRendererNode.position = SCNVector3Make(0.0f, -0.008f, 0.01f);
-    self.videoRendererNode.eulerAngles = SCNVector3Make(M_PI_2, 0.0f, 0.0f);
-    self.videoRendererNode.name = kVideoRendererNode;
-    
-    self.videoRendererNode.geometry.firstMaterial = [SCNMaterial materialWithColor:[UIColor blackColor]];
-    
+    self.videoRendererNode = [[VideoRendererNode alloc] initWithParentNode:self.tvNode];
     [self.tvNode addChildNode:self.videoRendererNode];
     
     self.currentTimeNode = [CurrentTimeNode node];
-    self.currentTimeNode.position = SCNVector3Make(-0.025f, -0.1f, 0.003f);
     [self.videoRendererNode addChildNode:self.currentTimeNode];
 }
 

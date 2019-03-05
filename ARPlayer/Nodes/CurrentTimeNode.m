@@ -38,6 +38,7 @@ static NSString * const kTimeFormat = @"00:00";
     geometry.alignmentMode = kCAAlignmentCenter;
     geometry.firstMaterial = [SCNMaterial materialWithColor:[UIColor whiteColor]];
     self.scale = SCNVector3Make(0.02f, 0.02f, 0.02f);
+    self.position = SCNVector3Make(-0.025f, -0.1f, 0.003f);
     [self setGeometry:geometry];
 }
 

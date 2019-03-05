@@ -25,6 +25,7 @@
 		6D2A5E481F7323930095F03A /* MediaPlayerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2A5E471F7323920095F03A /* MediaPlayerNode.m */; };
 		6DA2E01E1F7E655100B82663 /* Art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DA2E01D1F7E655100B82663 /* Art.scnassets */; };
 		6DCC3AB81F85785300E4C94B /* NextTrackNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC3AB71F85785300E4C94B /* NextTrackNode.m */; };
+		93B47298222EC41E00F1FF0C /* VideoRendererNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B47297222EC41E00F1FF0C /* VideoRendererNode.m */; };
 		93DA5A36222D3BA800CA1B8B /* PlaylistService.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A35222D3BA800CA1B8B /* PlaylistService.m */; };
 		93DA5A3A222D3F1600CA1B8B /* ControlNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A39222D3F1600CA1B8B /* ControlNode.m */; };
 		93DA5A3D222D458100CA1B8B /* PlaneRendererDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DA5A3C222D458100CA1B8B /* PlaneRendererDelegate.m */; };
@@ -106,9 +107,11 @@
 		6DA2E01D1F7E655100B82663 /* Art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Art.scnassets; sourceTree = "<group>"; };
 		6DCC3AB61F85785300E4C94B /* NextTrackNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextTrackNode.h; sourceTree = "<group>"; };
 		6DCC3AB71F85785300E4C94B /* NextTrackNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextTrackNode.m; sourceTree = "<group>"; };
+		93B47296222EC41E00F1FF0C /* VideoRendererNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoRendererNode.h; sourceTree = "<group>"; };
+		93B47297222EC41E00F1FF0C /* VideoRendererNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoRendererNode.m; sourceTree = "<group>"; };
 		93DA5A34222D3BA800CA1B8B /* PlaylistService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaylistService.h; sourceTree = "<group>"; };
 		93DA5A35222D3BA800CA1B8B /* PlaylistService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaylistService.m; sourceTree = "<group>"; };
-		93DA5A37222D3EB100CA1B8B /* AnimatableProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnimatableProtocol.h; sourceTree = "<group>"; };
+		93DA5A37222D3EB100CA1B8B /* InteractableProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractableProtocol.h; sourceTree = "<group>"; };
 		93DA5A38222D3F1600CA1B8B /* ControlNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControlNode.h; sourceTree = "<group>"; };
 		93DA5A39222D3F1600CA1B8B /* ControlNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ControlNode.m; sourceTree = "<group>"; };
 		93DA5A3B222D458100CA1B8B /* PlaneRendererDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaneRendererDelegate.h; sourceTree = "<group>"; };
@@ -217,8 +220,6 @@
 				93DA5A6F222D9F9B00CA1B8B /* ControlNodes */,
 				6D2A5E461F7323920095F03A /* MediaPlayerNode.h */,
 				6D2A5E471F7323920095F03A /* MediaPlayerNode.m */,
-				6D06790D1F804CDB0081574B /* TVNode.h */,
-				6D06790E1F804CDB0081574B /* TVNode.m */,
 				6D15BA2E1F744F4C002FABB0 /* PlaneRendererNode.h */,
 				6D15BA2F1F744F4C002FABB0 /* PlaneRendererNode.m */,
 				6D06790A1F803DB00081574B /* CurrentTimeNode.h */,
@@ -294,6 +295,10 @@
 				6D0679051F803D8F0081574B /* PlayNode.m */,
 				6D0679071F803DA20081574B /* StopNode.h */,
 				6D0679081F803DA20081574B /* StopNode.m */,
+				6D06790D1F804CDB0081574B /* TVNode.h */,
+				6D06790E1F804CDB0081574B /* TVNode.m */,
+				93B47296222EC41E00F1FF0C /* VideoRendererNode.h */,
+				93B47297222EC41E00F1FF0C /* VideoRendererNode.m */,
 			);
 			path = ControlNodes;
 			sourceTree = "<group>";
@@ -392,7 +397,7 @@
 		93ED08E7222C79AC0061433C /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				93DA5A37222D3EB100CA1B8B /* AnimatableProtocol.h */,
+				93DA5A37222D3EB100CA1B8B /* InteractableProtocol.h */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -555,6 +560,7 @@
 				6D2A5E481F7323930095F03A /* MediaPlayerNode.m in Sources */,
 				93E260E2222C35FB00C4C81D /* UIViewController+Helpers.m in Sources */,
 				93E260E5222C37F400C4C81D /* SCNNode+Helpers.m in Sources */,
+				93B47298222EC41E00F1FF0C /* VideoRendererNode.m in Sources */,
 				6D1BB41F1F77D2C500E5175E /* SettingsViewController.m in Sources */,
 				93DA5A5C222D73B300CA1B8B /* NodePlaybackHandler.m in Sources */,
 				93DA5A36222D3BA800CA1B8B /* PlaylistService.m in Sources */,

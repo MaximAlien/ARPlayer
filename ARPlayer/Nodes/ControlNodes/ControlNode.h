@@ -8,19 +8,15 @@
 
 @import SceneKit;
 
+#import "InteractableProtocol.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /*!
  @class ControlNode
  @abstract Node which is used as a base class for all nodes which can control video playback.
  */
-@interface ControlNode : SCNNode
-
-/*!
- @method animate
- @abstract Animate control media player action depending on settings.
- */
-- (void)animate;
+@interface ControlNode : SCNNode <InteractableProtocol>
 
 @end
 
